@@ -105,21 +105,17 @@ class OfferInitializerParser:
 
     def _enter_phone(self, phone: str):
         try:
-            WebDriverWait(self._driver, 30).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
+            WebDriverWait(self._driver, 5).until(
+                expected_conditions.element_to_be_clickable(
+                    (By.ID, "simple-registration-input-phone")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
-        phone_input = self._driver.find_elements(
-            By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
+        phone_input = self._driver.find_element(
+            By.ID, "simple-registration-input-phone"
         )
-
-        print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", phone_input)
-
-        phone_input = phone_input[0]
 
         phone_input.click()
 
@@ -175,12 +171,12 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 50).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch")
+                    (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
         self._driver.find_element(
-            By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
+            By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
         ).click()
