@@ -151,6 +151,8 @@ class OfferInitializerParser:
             except:
                 raise exceptions.TraficBannedError()
 
+        self._driver.execute_script("document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
+
         time.sleep(5)
 
         print("TEST")
