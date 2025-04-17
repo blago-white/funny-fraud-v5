@@ -146,7 +146,18 @@ class OfferInitializerParser:
                 )
             )
         except:
-            raise exceptions.TraficBannedError()
+            try:
+                WebDriverWait(self._driver, 2.5).until(
+                    expected_conditions.presence_of_element_located(
+                        (By.CSS_SELECTOR, ".TermsServicesPlate_button__qyP2M.finkit-button.finkit-button--purple.finkit-button--m")
+                    )
+                )
+
+                self._driver.find_element(
+                    By.CSS_SELECTOR, ".TermsServicesPlate_button__qyP2M.finkit-button.finkit-button--purple.finkit-button--m"
+                ).click()
+            except:
+                raise exceptions.TraficBannedError()
 
         self._driver.find_element(
             By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
