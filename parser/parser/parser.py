@@ -115,7 +115,11 @@ class OfferInitializerParser:
 
         phone_input = self._driver.find_elements(
             By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
-        )[-1]
+        )
+
+        print(phone_input)
+
+        phone_input = phone_input[0]
 
         phone_input.click()
 
