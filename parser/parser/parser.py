@@ -159,9 +159,15 @@ class OfferInitializerParser:
             except:
                 raise exceptions.TraficBannedError()
 
-        self._driver.find_element(
-            By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
-        ).click()
+        time.sleep(5)
+
+        try:
+            self._driver.find_element(
+                By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
+            ).click()
+        except:
+            time.sleep(2.5)
+            return self._click_get_account()
 
     def _select_registration_provider(self):
         try:
