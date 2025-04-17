@@ -171,12 +171,12 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 50).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".new-ui-button -secondary -m -stretch")
+                    (By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
         self._driver.find_element(
-            By.CSS_SELECTOR, ".new-ui-button -secondary -m -stretch"
+            By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
         ).click()
