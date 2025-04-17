@@ -169,7 +169,7 @@ class OfferInitializerParser:
 
     def _select_registration_provider(self):
         try:
-            WebDriverWait(self._driver, 10).until(
+            WebDriverWait(self._driver, 50).until(
                 expected_conditions.element_to_be_clickable(
                     (By.CSS_SELECTOR, ".new-ui-button -secondary -m -stretch")
                 )
