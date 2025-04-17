@@ -113,9 +113,9 @@ class OfferInitializerParser:
         except:
             raise exceptions.TraficBannedError()
 
-        phone_input = self._driver.find_element(
-            By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
-        )
+        phone_input = self._driver.find_elements(
+            By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
+        )[-1]
 
         phone_input.click()
 
