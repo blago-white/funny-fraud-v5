@@ -142,14 +142,14 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 40).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".finkit-button--l")
+                    (By.CSS_SELECTOR, "finkit-button--m")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
         self._driver.find_element(
-            By.CSS_SELECTOR, ".finkit-button--l"
+            By.CLASS_NAME, "finkit-button--m"
         ).click()
 
     def _select_registration_provider(self):
