@@ -35,6 +35,7 @@ class OfferInitializerParser:
             driver: Chrome,
             owner_data_generator: utils.OwnerCredentalsGenerator = None):
         self._driver = driver
+
         self._payments_card = payments_card
 
         if type(payments_card) is str:
