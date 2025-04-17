@@ -106,7 +106,7 @@ class OfferInitializerParser:
     def _enter_phone(self, phone: str):
         try:
             WebDriverWait(self._driver, 30).until(
-                expected_conditions.element_to_be_clickable(
+                expected_conditions.presence_of_element_located(
                     (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
                 )
             )
@@ -117,7 +117,7 @@ class OfferInitializerParser:
             By.CSS_SELECTOR, ".new-ui-button.-secondary.-m.-stretch"
         )
 
-        print(phone_input)
+        print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", phone_input)
 
         phone_input = phone_input[0]
 
