@@ -132,9 +132,11 @@ class OfferInitializerParser:
         self._check_number_entered(phone=phone)
 
     def _check_number_entered(self, phone: str):
-        phone_label = self._driver.find_element(By.CSS_SELECTOR, 'span[t-text="phone"]')
+        phone_label = self._driver.find_element(By.CSS_SELECTOR, 'span[x-text="phone"]')
 
         for phone_symbol in phone:
+            print(f"{phone_symbol} : {phone_label.text}")
+
             if phone_symbol not in phone_label.text:
                 raise ValueError("Phone not entered")
 
