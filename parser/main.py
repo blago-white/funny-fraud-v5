@@ -1,6 +1,9 @@
 import time
+import dotenv
 
-from parser.parser import OfferInitializerParser
+dotenv.load_dotenv()
+
+from parser.parser.parser import OfferInitializerParser
 
 from profiles.drivers import WebDriversService
 
