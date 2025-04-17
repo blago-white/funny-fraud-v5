@@ -142,7 +142,7 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 40).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--l")
+                    (By.CSS_SELECTOR, ".finkit-button--l")
                 )
             )
         except:
