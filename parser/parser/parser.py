@@ -105,16 +105,16 @@ class OfferInitializerParser:
 
     def _enter_phone(self, phone: str):
         try:
-            WebDriverWait(self._driver, 5).until(
+            WebDriverWait(self._driver, 30).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.ID, "simple-registration-input-phone")
+                    (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
         phone_input = self._driver.find_element(
-            By.ID, "simple-registration-input-phone"
+            By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
         )
 
         phone_input.click()
