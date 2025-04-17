@@ -147,25 +147,21 @@ class OfferInitializerParser:
             )
         except:
             try:
-                WebDriverWait(self._driver, 2.5).until(
-                    expected_conditions.presence_of_element_located(
-                        (By.CSS_SELECTOR, ".TermsServicesPlate_button__qyP2M.finkit-button.finkit-button--purple.finkit-button--m")
-                    )
-                )
-
-                self._driver.find_element(
-                    By.CSS_SELECTOR, ".TermsServicesPlate_button__qyP2M.finkit-button.finkit-button--purple.finkit-button--m"
-                ).click()
+                self._driver.execute_script("document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
             except:
                 raise exceptions.TraficBannedError()
 
         time.sleep(5)
+
+        print("TEST")
 
         try:
             self._driver.find_element(
                 By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
             ).click()
         except:
+            print("FUCK")
+
             time.sleep(2.5)
             return self._click_get_account()
 
