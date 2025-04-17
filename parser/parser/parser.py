@@ -141,7 +141,7 @@ class OfferInitializerParser:
     def _click_get_account(self):
         try:
             WebDriverWait(self._driver, 15).until(
-                expected_conditions.presence_of_element_located(
+                expected_conditions.element_to_be_clickable(
                     (By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m")
                 )
             )
