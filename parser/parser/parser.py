@@ -160,12 +160,12 @@ class OfferInitializerParser:
     def _enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
-                (By.ID, "Mazcdvv3gK26rIls")
+                (By.ID, "TQVeCRswBQ97fCBu")
             )
         )
 
         name_input = self._driver.find_element(
-            By.ID, "Mazcdvv3gK26rIls"
+            By.ID, "TQVeCRswBQ97fCBu"
         )
         name_input.send_keys(self._owner_data_generator.get_passport_data())
 
