@@ -23,6 +23,8 @@ class WebDriversService:
         self._driver_path = driver_path or os.environ.get("CHROME_DRIVER_PATH")
         self._gologin_manager = gologin_manager
 
+        print(self._driver_path)
+
     @property
     def gologin_manager(self) -> GologinProfilesManager:
         return self._gologin_manager
