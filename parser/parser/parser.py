@@ -126,11 +126,11 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-registrationAddress").click()
         self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(passport.birthplace)
 
-        time.sleep(1.5)
+        time.sleep(5)
 
-        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[4].click()
+        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[6].click()
 
-        time.sleep(.5)
+        time.sleep(5)
 
         self._driver.find_element(By.ID, "application_snils").click()
         self._driver.find_element(By.ID, "application_snils").send_keys(passport.snils_number)
