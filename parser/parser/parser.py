@@ -235,7 +235,7 @@ class OfferInitializerParser:
 
             time.sleep(.25)
 
-        WebDriverWait(self._driver, 5).until(
+        WebDriverWait(self._driver, 30).until(
             expected_conditions.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".set-password-form__title.title")
             )
