@@ -177,7 +177,7 @@ class OfferInitializerParser:
         time.sleep(1)
 
         if len(full_name.split(" ")) == 2:
-            self._driver.find_element(By.CSS_SELECTOR, 'label[name="patronymic"]').click()
+            self._driver.find_element(By.NAME, "patronymic").click()
 
         time.sleep(1)
 
