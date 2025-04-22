@@ -158,7 +158,7 @@ class OfferInitializerParser:
         self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
         self._click_random_selector()
 
-        self._driver.find_element(By.CSS_SELECTOR, ".new-ui-button.-primary.-s.Nb9ub-uyYkHBoswqEb-rDg==").click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
     def _click_random_selector(self):
         selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
