@@ -22,6 +22,8 @@ class OwnerCredentalsRepository:
             serial_number=self._credentals[17],
             id=self._credentals[18],
             firstname=self._credentals[4],
+            lastname=self._credentals[5],
+            patronymic=self._credentals[6],
             date_issue=self._credentals[21],
             unit_code=self._credentals[19],
             unit_name=self._credentals[20],
