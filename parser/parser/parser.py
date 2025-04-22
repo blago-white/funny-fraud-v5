@@ -85,7 +85,7 @@ class OfferInitializerParser:
     def enter_owner_passport_data(self):
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
-                (By.ID, "new-ui-radio")
+                (By.CLASS_NAME, "new-ui-radio")
             )
         )
 
