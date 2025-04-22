@@ -174,6 +174,10 @@ class OfferInitializerParser:
 
         name_input.send_keys(full_name)
 
+        time.sleep(2)
+
+        self._click_first_selector()
+
         time.sleep(1)
 
         if len(passport.patronymic) < 2:
@@ -192,6 +196,9 @@ class OfferInitializerParser:
         self._driver.find_elements(
             By.CSS_SELECTOR, ".new-ui-button.-primary.-s"
         )[0].click()
+
+    def _click_first_selector(self):
+        self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")[0].click()
 
     def _enter_password(self):
         WebDriverWait(self._driver, 15).until(
