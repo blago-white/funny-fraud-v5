@@ -15,4 +15,10 @@ o.register(
     phone="79952481751"
 )
 
+o.enter_registration_otp(otp=input())
+
+o.enter_approval_otp(otp=input())
+
+o.enter_owner_passport_data()
+
 time.sleep(245)

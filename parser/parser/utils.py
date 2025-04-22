@@ -4,29 +4,31 @@ from dataclasses import dataclass
 
 from russian_names import RussianNames
 
+from .transfer import PassportData
 
-class OwnerCredentalsGenerator:
-    _name_service: RussianNames
 
-    def __init__(self, names_service: RussianNames = None):
-        self._names_service = names_service or RussianNames(patronymic=False)
+class OwnerCredentalsRepository:
+    _credentals: str
+    _passport: PassportData
 
-    def get_random_owner_data(self) -> list[str]:
-        password = self._get_random_password()
+    def __init__(self, credentals: str):
+        self._credentals = credentals.split(";")
 
-        return list(self._names_service.get_person().split(" ")) + [
-            self._get_random_date(),
-            password,
-            password,
-            self._get_random_email()
-        ]
+    def get_email(self):
+        return self._credentals[23].replace(" ", "") or f"{self._get_random_password()}@gmail.com"
 
-    def _get_random_email(self):
-        return f"{self._get_random_password()}@gmail.com"
-
-    @staticmethod
-    def _get_random_date() -> str:
-        return f"{str(random.randint(1, 28)).zfill(2)}{str(random.randint(1, 12)).zfill(2)}{random.randint(1989, 1999)}"
+    def get_passport_data(self) -> PassportData:
+        return PassportData(
+            serial_number=self._credentals[17],
+            id=self._credentals[18],
+            firstname=self._credentals[4],
+            date_issue=self._credentals[21],
+            unit_code=self._credentals[19],
+            unit_name=self._credentals[20],
+            birthday_date=self._credentals[11].replace(".", ""),
+            snils_number=self._credentals[12],
+            is_male=self._credentals[10] == "MALE"
+        )
 
     @staticmethod
     def get_random_password():

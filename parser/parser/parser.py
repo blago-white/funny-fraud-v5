@@ -1,3 +1,4 @@
+import random
 import time
 
 from selenium.webdriver.common.by import By
@@ -33,7 +34,7 @@ class OfferInitializerParser:
     def __init__(
             self, payments_card: utils.PaymentsCardData,
             driver: Chrome,
-            owner_data_generator: utils.OwnerCredentalsGenerator = None):
+            owner_data_generator: utils.OwnerCredentalsRepository = None):
         self._driver = driver
 
         self._payments_card = payments_card
@@ -44,7 +45,7 @@ class OfferInitializerParser:
             )
 
         self._owner_data_generator = (owner_data_generator or
-                                      utils.OwnerCredentalsGenerator())
+                                      utils.OwnerCredentalsRepository())
 
     @property
     def driver(self):
@@ -64,6 +65,123 @@ class OfferInitializerParser:
 
         self._enter_password()
 
+        self._enter_owner_primary_data()
+
+    def enter_approval_otp(self, otp: str):
+        WebDriverWait(self._driver, 2.5).until(
+            expected_conditions.element_to_be_clickable(
+                (By.CSS_SELECTOR, ".new-ui-input-base__field.-small")
+            )
+        )
+
+        approval_otp_field = self._driver.find_element(
+            By.CSS_SELECTOR, ".new-ui-input-base__field.-small"
+        )
+
+        for s in otp:
+            approval_otp_field.send_keys(s)
+            time.sleep(.5)
+
+    def enter_owner_passport_data(self):
+        WebDriverWait(self._driver, 2.5).until(
+            expected_conditions.element_to_be_clickable(
+                (By.ID, "Mazcdvv3gK26rIls")
+            )
+        )
+
+        self._driver.find_elements(By.CLASS_NAME, "new-ui-radio")[1].click()
+
+        time.sleep(.5)
+
+        passport = self._owner_data_generator.get_passport_data()
+
+        if not passport.is_male:
+            self._driver.find_element(By.ID, "personal-form_gender-female")
+
+        self._driver.find_element(By.ID, "personal-form_input-series").send_keys(passport.serial_number)
+        self._driver.find_element(By.ID, "personal-form_input-number").send_keys(passport.id)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "personal-form_input-date").click()
+        self._driver.find_element(By.ID, "personal-form_input-date").send_keys(passport.date_issue)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "personal-form_input-code").click()
+        self._driver.find_element(By.ID, "personal-form_input-code").send_keys(passport.unit_code)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "personal-form_input-birthdate").click()
+        self._driver.find_element(By.ID, "personal-form_input-birthdate").send_keys(passport.birthday_date)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "personal-form_input-birthplace").click()
+        self._driver.find_element(By.ID, "personal-form_input-birthplace").send_keys(passport.birthplace)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").click()
+        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(passport.birthplace)
+
+        time.sleep(1.5)
+
+        self._driver.find_elements(By.CSS_SELECTOR, ".ui-dropdown-option")[0].click()
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "application_snils").click()
+        self._driver.find_element(By.ID, "application_snils").send_keys(passport.snils_number)
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "pqsYDvuVdiRLkXvf").click()
+        self._click_random_selector()
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "cOLbcSOELhOpdIzc").click()
+        self._click_random_selector()
+
+        time.sleep(.5)
+
+        self._driver.find_element(By.ID, "LjtwPPnRCJEAffbr").click()
+        self._click_random_selector()
+
+        self._driver.find_element(By.CSS_SELECTOR, ".new-ui-button.-primary.-s.Nb9ub-uyYkHBoswqEb-rDg==").click()
+
+    def _click_random_selector(self):
+        selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
+
+        selectors[random.randint(0, len(selectors))].click()
+
+    def _enter_owner_primary_data(self):
+        WebDriverWait(self._driver, 5).until(
+            expected_conditions.element_to_be_clickable(
+                (By.ID, "Mazcdvv3gK26rIls")
+            )
+        )
+
+        name_input = self._driver.find_element(
+            By.ID, "Mazcdvv3gK26rIls"
+        )
+        name_input.send_keys(self._owner_data_generator.get_passport_data())
+
+        time.sleep(1)
+
+        email_input = self._driver.find_element(
+            By.ID, "contacts-form_input-email"
+        )
+        email_input.send_keys(self._owner_data_generator.get_email())
+
+        time.sleep(1)
+
+        self._driver.find_element(
+            By.CSS_SELECTOR, ".new-ui-button.-primary.-s._5GRQg2x2h +aSpapDJBiDSg=="
+        ).click()
+
     def _enter_password(self):
         WebDriverWait(self._driver, 5).until(
             expected_conditions.element_to_be_clickable(
@@ -80,6 +198,8 @@ class OfferInitializerParser:
         password_field.send_keys(
             self._owner_data_generator.get_random_password()
         )
+
+        # SEND FORM
 
     def _enter_registration_otp(self, otp: int | str):
         otp = str(otp)
