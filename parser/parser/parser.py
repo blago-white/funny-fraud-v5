@@ -198,7 +198,7 @@ class OfferInitializerParser:
         )[0].click()
 
     def _click_first_selector(self):
-        self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")[0].click()
+        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[0].click()
 
     def _enter_password(self):
         WebDriverWait(self._driver, 15).until(
