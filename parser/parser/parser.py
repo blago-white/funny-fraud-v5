@@ -158,7 +158,7 @@ class OfferInitializerParser:
         selectors[random.randint(0, len(selectors))].click()
 
     def _enter_owner_primary_data(self):
-        WebDriverWait(self._driver, 5).until(
+        WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
                 (By.ID, "Mazcdvv3gK26rIls")
             )
@@ -183,7 +183,7 @@ class OfferInitializerParser:
         ).click()
 
     def _enter_password(self):
-        WebDriverWait(self._driver, 5).until(
+        WebDriverWait(self._driver, 15).until(
             expected_conditions.element_to_be_clickable(
                 (By.ID, "simple-registration-input-new-password")
             )
@@ -199,7 +199,7 @@ class OfferInitializerParser:
             self._owner_data_generator.get_random_password()
         )
 
-        # SEND FORM
+        self._driver.find_element(By.ID, "simple-registration-button-set-password").click()
 
     def _enter_registration_otp(self, otp: int | str):
         otp = str(otp)
