@@ -170,13 +170,13 @@ class OfferInitializerParser:
 
         passport = self._owner_data_generator.get_passport_data()
 
-        full_name = f"{passport.firstname} {passport.lastname}" + ("" or (" " + passport.patronymic))
+        full_name = f"{passport.firstname} {passport.lastname}" + ("" or passport.patronymic)
 
         name_input.send_keys(full_name)
 
         time.sleep(1)
 
-        if len(full_name.split(" ")) == 2:
+        if len(passport.patronymic) > 2:
             self._driver.find_element(By.NAME, "patronymic").click()
 
         time.sleep(1)
@@ -188,9 +188,9 @@ class OfferInitializerParser:
 
         time.sleep(1)
 
-        self._driver.find_element(
-            By.CSS_SELECTOR, ".new-ui-button.-primary.-s._5GRQg2x2h+aSpapDJBiDSg=="
-        ).click()
+        self._driver.find_elements(
+            By.CSS_SELECTOR, ".new-ui-button.-primary.-s"
+        )[0].click()
 
     def _enter_password(self):
         WebDriverWait(self._driver, 15).until(
