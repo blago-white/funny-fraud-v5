@@ -159,15 +159,25 @@ class OfferInitializerParser:
 
     def _enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
-            expected_conditions.element_to_be_clickable(
-                (By.ID, "TQVeCRswBQ97fCBu")
+            expected_conditions.presence_of_element_located(
+                (By.CLASS_NAME, "ui-input__field")
             )
         )
 
-        name_input = self._driver.find_element(
-            By.ID, "TQVeCRswBQ97fCBu"
-        )
-        name_input.send_keys(self._owner_data_generator.get_passport_data())
+        name_input = self._driver.find_elements(
+            By.CLASS_NAME, "ui-input__field"
+        )[-2]
+
+        passport = self._owner_data_generator.get_passport_data()
+
+        full_name = f"{passport.firstname} {passport.lastname}" + ("" or (" " + passport.patronymic))
+
+        name_input.send_keys(full_name)
+
+        time.sleep(1)
+
+        if len(full_name.split(" ")) == 2:
+            self._driver.find_element(By.CSS_SELECTOR, 'label[name="patronymic"]').click()
 
         time.sleep(1)
 
@@ -179,7 +189,7 @@ class OfferInitializerParser:
         time.sleep(1)
 
         self._driver.find_element(
-            By.CSS_SELECTOR, ".new-ui-button.-primary.-s._5GRQg2x2h +aSpapDJBiDSg=="
+            By.CSS_SELECTOR, ".new-ui-button.-primary.-s._5GRQg2x2h+aSpapDJBiDSg=="
         ).click()
 
     def _enter_password(self):
