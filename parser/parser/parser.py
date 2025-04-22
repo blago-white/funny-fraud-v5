@@ -83,9 +83,9 @@ class OfferInitializerParser:
             time.sleep(.5)
 
     def enter_owner_passport_data(self):
-        WebDriverWait(self._driver, 2.5).until(
+        WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
-                (By.ID, "Mazcdvv3gK26rIls")
+                (By.ID, "new-ui-radio")
             )
         )
 
@@ -137,17 +137,17 @@ class OfferInitializerParser:
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID, "pqsYDvuVdiRLkXvf").click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[0].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID, "cOLbcSOELhOpdIzc").click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[1].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID, "LjtwPPnRCJEAffbr").click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
         self._click_random_selector()
 
         self._driver.find_element(By.CSS_SELECTOR, ".new-ui-button.-primary.-s.Nb9ub-uyYkHBoswqEb-rDg==").click()
