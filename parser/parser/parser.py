@@ -177,7 +177,7 @@ class OfferInitializerParser:
         time.sleep(1)
 
         if len(passport.patronymic) > 2:
-            self._driver.find_element(By.NAME, "patronymic").click()
+            self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-checkbox")[3].click()
 
         time.sleep(1)
 
