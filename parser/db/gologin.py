@@ -1,3 +1,3 @@
 class GologinApikeysRepository:
     def get_current(self):
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2ZkNTJjZGYyYjJhYzA3MDUyY2YzY2IiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2N2ZkNTUzNGI0MWJkMmY2NzJmOWUxZTMifQ.SMiEwWQGWKtYDfZXe9N7Gjv4cFpfS64i3FGLBHexfnQ"
+        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODA0Yzk2MTdiNGNjZTE2YjYyY2EzMmMiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2ODA3NTVjZmY5MGIxMjAzYjVmZDA5ZDQifQ.I_trgvUlnuZwRZHR3IWmqw7Tj9KOcvpQxuIybtKcoas"
