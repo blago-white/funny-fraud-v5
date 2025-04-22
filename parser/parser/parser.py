@@ -178,7 +178,7 @@ class OfferInitializerParser:
 
         if len(passport.patronymic) < 2:
             print(self._driver.find_elements(By.NAME, "patronymic"))
-            self._driver.find_elements(By.NAME, "patronymic").click()
+            self._driver.find_element(By.NAME, "patronymic").click()
 
         time.sleep(1)
 
