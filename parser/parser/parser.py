@@ -45,7 +45,7 @@ class OfferInitializerParser:
             )
 
         self._owner_data_generator = (owner_data_generator or
-                                      utils.OwnerCredentalsRepository())
+                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'1723dcda-1bf9-48bf-b269-621d2bb26db9';'2022-05-22 22:13:05';'erl-portal';'Мурзаев';'Дильшод';;'Мурзаев';'Дильшод';;'MALE';'12.08.1976';'20236294830';'400305865000';;'Россия, Калужская обл, Боровский р-н, г Балабаново, 249000, 1 Мая ул, д. 9';'2919 978599, выдан 30.03.2020 УМВД РОССИИ ПО КАЛУЖСКОЙ ОБЛАСТИ 400003';'2919';'978599';'400-003';'УМВД РОССИИ ПО КАЛУЖСКОЙ ОБЛАСТИ';'30.03.2020';'GOOD';'dilshadmurzaev1976@gmail.com';'+79999639408';;;;;;;;'false';;'1110659062'"))
 
     @property
     def driver(self):

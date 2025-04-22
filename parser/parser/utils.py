@@ -12,7 +12,7 @@ class OwnerCredentalsRepository:
     _passport: PassportData
 
     def __init__(self, credentals: str):
-        self._credentals = credentals.split(";")
+        self._credentals = credentals.replace("'", "").split(";")
 
     def get_email(self):
         return self._credentals[23].replace(" ", "") or f"{self._get_random_password()}@gmail.com"
@@ -27,7 +27,8 @@ class OwnerCredentalsRepository:
             unit_name=self._credentals[20],
             birthday_date=self._credentals[11].replace(".", ""),
             snils_number=self._credentals[12],
-            is_male=self._credentals[10] == "MALE"
+            is_male=self._credentals[10] == "MALE",
+            birthplace=self._credentals[15]
         )
 
     @staticmethod
