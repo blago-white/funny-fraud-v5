@@ -23,4 +23,6 @@ o.enter_owner_passport_data()
 
 o.enter_owner_funds_status()
 
+print("ТЮЮЮЮЮ ЕБАААТЬ")
+
 time.sleep(245)
