@@ -266,7 +266,7 @@ class OfferInitializerParser:
     def _click_random_selector(self):
         selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
 
-        selectors[random.randint(0, len(selectors))].click()
+        selectors[random.randint(0, len(selectors)-1)].click()
 
     def _click_selector(self, number: int):
         selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
