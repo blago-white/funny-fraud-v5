@@ -156,7 +156,7 @@ class OfferInitializerParser:
         time.sleep(.5)
 
         self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
-        self._click_first_selector()
+        self._click_selector(number=random.randint(1, 3))
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
@@ -271,7 +271,11 @@ class OfferInitializerParser:
     def _click_selector(self, number: int):
         selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
 
-        selectors[number].click()
+        try:
+            selectors[number].click()
+        except Exception as e:
+            print(f"ERROR CLICK SELECTOR: {e}")
+            selectors[number+1].click()
 
     def _enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
