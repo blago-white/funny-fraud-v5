@@ -30,7 +30,7 @@ class OwnerCredentalsRepository:
             birthday_date=self._credentals[11].replace(".", ""),
             snils_number=self._credentals[12],
             is_male=self._credentals[10] == "MALE",
-            birthplace=self._credentals[15]
+            birthplace=self._credentals[14]
         )
 
     @staticmethod
