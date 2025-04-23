@@ -169,6 +169,8 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
+        time.sleep(20)
+
     def enter_owner_funds_status(self):
         self._select_employment_type()
 
