@@ -12,7 +12,7 @@ o = OfferInitializerParser(payments_card=None, driver=(WebDriversService().get_d
 
 o.register(
     url="https://finuslugi.ru/podbor_zajma?utm_source=leadssu&utm_medium=affiliate&utm_campaign=pr:kredity&utm_term=53f3ff45afb1a75efefb7017ab3d2638&offer_id=11437&utm_content=125100",
-    phone="79379959232"
+    phone="79230551174"
 )
 
 o.enter_registration_otp(otp=input())
@@ -20,5 +20,7 @@ o.enter_registration_otp(otp=input())
 o.enter_approval_otp(otp=input())
 
 o.enter_owner_passport_data()
+
+o.enter_owner_funds_status()
 
 time.sleep(245)

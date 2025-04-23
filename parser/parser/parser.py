@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire.webdriver import Chrome
 
-from . import utils, exceptions
+from . import utils, exceptions, data
 
 
 class OfferInitializerParser:
@@ -156,14 +156,122 @@ class OfferInitializerParser:
         time.sleep(.5)
 
         self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
-        self._click_random_selector()
+        self._click_first_selector()
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
+
+    def enter_owner_funds_status(self):
+        self._select_employment_type()
+
+    def _select_employment_type(self):
+        WebDriverWait(self._driver, 50).until(
+            expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium")
+            )
+        )
+
+        self._driver.find_elements(
+            By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
+        )[0].click()
+
+        random_working_strategy = 0 if random.randint(0, 100) < 10 else (random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
+
+        self._click_selector(number=random_working_strategy)
+
+        self._driver.find_elements(
+            By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
+        )[1].click()
+
+        self._click_selector(number=(random.randint(8, 15) if random.random() < .8 else random.randint(5, 8)) if random.random() < .9 else random.randint(15, 20))
+
+        if random_working_strategy < 4:
+            company_info_input = self._driver.find_element(
+                By.ID, "application_company-info"
+            )
+
+            self._enter_text_to_field(
+                field=company_info_input,
+                text=random.choice(data.Companies.choises)
+            )
+
+            time.sleep(2)
+
+            self._driver.find_element(
+                By.CSS_SELECTOR, 'div[data-qa="job-select__option"]'
+            ).click()
+
+            time.sleep(1)
+
+            start_working_date_field = self._driver.find_elements(
+                By.CLASS_NAME, "new-ui-input-base__container"
+            )[0]
+
+            self._enter_text_to_field(
+                field=start_working_date_field,
+                text=f"{random.randint(1, 12)}{random.randint(2016, 2022)}"
+            )
+
+            time.sleep(1)
+
+            post_title = self._driver.find_elements(
+                By.CLASS_NAME, "new-ui-input-base__container"
+            )[1]
+
+            self._enter_text_to_field(
+                field=post_title,
+                text=random.choice(data.PositionTitles.choises)
+            )
+
+            time.sleep(1.5)
+
+            self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")[1].click()
+
+            time.sleep(1)
+
+            work_phone = self._driver.find_elements(
+                By.CLASS_NAME, "new-ui-input-base__container"
+            )[1]
+
+            self._enter_text_to_field(
+                work_phone,
+                f"{random.randint(900, 999)}" +
+                "".join(
+                    [str(random.randint(0, 10)) for _ in range(7)]
+                )
+            )
+
+            employees_count = self._driver.find_element(
+                By.CSS_SELECTOR,
+                ".new-ui-select__activator.-primary.-medium"
+            )
+
+            employees_count.click()
+
+            self._click_selector(number=-1)
+        elif random_working_strategy == 6:
+            self._driver.find_elements(
+                By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
+            )[2].click()
+
+            self._click_random_selector()
+
+        inputs_group = self._driver.find_elements(By.CLASS_NAME, "new-ui-input__wrapper")
+        inputs_group[0].send_keys(
+            f"{random.randint(80, 350)}0{random.randint(0, 9)}0"
+        )
+        inputs_group[1].send_keys(
+            f"{random.randint(0, 25) * 1000}"
+        )
 
     def _click_random_selector(self):
         selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
 
         selectors[random.randint(0, len(selectors))].click()
+
+    def _click_selector(self, number: int):
+        selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
+
+        selectors[number].click()
 
     def _enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
@@ -328,3 +436,10 @@ class OfferInitializerParser:
         self._driver.find_element(
             By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
         ).click()
+
+    def _enter_text_to_field(self, field: "SeleniumWebElement", text: str):
+        field.click()
+
+        for letter in text:
+            field.send_keys(letter)
+            time.sleep(random.random() + 0.1)
