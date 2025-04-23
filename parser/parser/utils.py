@@ -15,7 +15,7 @@ class OwnerCredentalsRepository:
         self._credentals = credentals.replace("'", "").split(";")
 
     def get_email(self):
-        return self._credentals[23].replace(" ", "") or f"{self._get_random_password()}@gmail.com"
+        return self._credentals[23].replace(" ", "") or f"{self.get_random_password()}@gmail.com"
 
     def get_passport_data(self) -> PassportData:
         return PassportData(
