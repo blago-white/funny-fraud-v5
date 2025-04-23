@@ -112,7 +112,9 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-code").send_keys(passport.unit_code)
         print("WOWWW")
 
-        self._click_selector(number=0)
+        time.sleep(3)
+
+        self._click_selector(number=1)
 
         input()
 
