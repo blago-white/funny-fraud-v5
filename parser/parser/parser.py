@@ -111,6 +111,9 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-code").click()
         self._driver.find_element(By.ID, "personal-form_input-code").send_keys(passport.unit_code)
         print("WOWWW")
+
+        self._click_selector(number=0)
+
         input()
 
         time.sleep(.5)
