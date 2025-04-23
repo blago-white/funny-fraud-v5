@@ -45,7 +45,7 @@ class OfferInitializerParser:
             )
 
         self._owner_data_generator = (owner_data_generator or
-                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'1723dcda-1bf9-48bf-b269-621d2bb26db9';'2022-05-22 22:13:05';'erl-portal';'Мурзаев';'Дильшод';;'Мурзаев';'Дильшод';;'MALE';'12.08.1976';'20236294830';'400305865000';;'Россия, Калужская обл, Боровский р-н, г Балабаново, 249000, 1 Мая ул, д. 9';'2919 978599, выдан 30.03.2020 УМВД РОССИИ ПО КАЛУЖСКОЙ ОБЛАСТИ 400003';'2919';'978599';'400-003';'УМВД РОССИИ ПО КАЛУЖСКОЙ ОБЛАСТИ';'30.03.2020';'GOOD';'dilshadmurzaev1976@gmail.com';'+79999639408';;;;;;;;'false';;'1110659062'"))
+                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'1720a5c7-924c-4d8a-918a-1af661def7a8';'2022-05-12 22:28:52';'erl-portal';'Копьёва';'Екатерина';'Алексеевна';'Копьёва';'Екатерина';'Алексеевна';'FEMALE';'06.11.1983';'10970876583';'370200266650';;;'2414 727902, выдан 09.07.2014 Отделение УФМС России по Ивановской области в Октябрьском р-не г. Иваново 370001';'2414';'727902';'370-001';'Отделение УФМС России по Ивановской области в Октябрьском р-не г. Иваново';'09.07.2014';'GOOD';'e-kopeva@bk.ru';'+7(926)8758454';;;;;;;;'false';;"))
 
     @property
     def driver(self):
@@ -110,6 +110,8 @@ class OfferInitializerParser:
 
         self._driver.find_element(By.ID, "personal-form_input-code").click()
         self._driver.find_element(By.ID, "personal-form_input-code").send_keys(passport.unit_code)
+        print("WOWWW")
+        input()
 
         time.sleep(.5)
 
