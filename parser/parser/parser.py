@@ -45,7 +45,7 @@ class OfferInitializerParser:
             )
 
         self._owner_data_generator = (owner_data_generator or
-                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'17244b92-ffae-4faf-a631-44590610065e';'2022-05-24 06:28:06';'erl-portal';'Уварова';'Зоя';'Борисовна';'Уварова';'Зоя';'Борисовна';'FEMALE';'21.04.1990';'16233620841';'665815830342';'Россия, Свердловская обл, г Екатеринбург, 620109, Токарей ул, д. 50, кор. 1, кв. 71';;'6512 422097, выдан 29.06.2012 ОТДЕЛОМ УФМС РОССИИ ПО СВЕРДЛОВСКОЙ ОБЛАСТИ В ВЕРХ-ИСЕТСКОМ Р-НЕ ГОР. ЕКАТЕРИНБУРГА 660001';'6512';'422097';'660-001';'ОТДЕЛОМ УФМС РОССИИ ПО СВЕРДЛОВСКОЙ ОБЛАСТИ В ВЕРХ-ИСЕТСКОМ Р-НЕ ГОР. ЕКАТЕРИНБУРГА';'29.06.2012';'GOOD';;'+79000426208';;;;;;;;'false';;'1075554606'"))
+                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'17244b92-ffae-4faf-a631-44590610065e';'2022-05-24 06:28:06';'erl-portal';'Уварова';'Зоя';'Борисовна';'Уварова';'Зоя';'Борисовна';'FEMALE';'21.04.1990';'16233620841';'665815830342';'Россия, Калужская обл, Боровский р-н, г Балабаново, 249000, 1 Мая ул, д. 9';;'6512 422097, выдан 29.06.2012 ОТДЕЛОМ УФМС РОССИИ ПО СВЕРДЛОВСКОЙ ОБЛАСТИ В ВЕРХ-ИСЕТСКОМ Р-НЕ ГОР. ЕКАТЕРИНБУРГА 660001';'6512';'422097';'660-001';'ОТДЕЛОМ УФМС РОССИИ ПО СВЕРДЛОВСКОЙ ОБЛАСТИ В ВЕРХ-ИСЕТСКОМ Р-НЕ ГОР. ЕКАТЕРИНБУРГА';'29.06.2012';'GOOD';;'+79000426208';;;;;;;;'false';;'1075554606'"))
 
     @property
     def driver(self):
@@ -124,6 +124,8 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-birthdate").send_keys(passport.birthday_date)
 
         time.sleep(.5)
+
+        print(f"BIRTHPLACE !!! {passport.birthplace}")
 
         self._driver.find_element(By.ID, "personal-form_input-birthplace").click()
         self._driver.find_element(By.ID, "personal-form_input-birthplace").send_keys(passport.birthplace)
