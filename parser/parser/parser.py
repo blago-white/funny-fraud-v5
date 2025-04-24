@@ -30,13 +30,18 @@ class OfferInitializerParser:
         return self._driver
 
     def register(self, url: str, phone: str, _retry: bool = False):
-        self._driver.get(url=url)
+        if not self._form_already_inited:
+            self._driver.get(url=url)
 
-        self._click_get_account()
+            self._click_get_account()
 
-        self._select_registration_provider()
+            self._select_registration_provider()
+        else:
+            self._reenter_phone(new_phone=phone)
 
         self._enter_phone(phone=phone)
+
+        self._form_already_inited = True
 
     def enter_registration_otp(self, otp: int | str):
         self._enter_registration_otp(otp=otp)
@@ -179,6 +184,11 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
             0].click()
+
+    def _reenter_phone(self, new_phone: str):
+        self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
+
+        self._enter_phone(phone=new_phone)
 
     def _select_employment_type(self):
         WebDriverWait(self._driver, 50).until(
@@ -404,6 +414,11 @@ class OfferInitializerParser:
         )
 
         phone_input.click()
+
+        if self._form_already_inited:
+            phone_input.send_keys(Keys.CONTROL+"A")
+            phone_input.send_keys(Keys.BACKSPACE)
+            phone_input.send_keys(Keys.BACKSPACE)
 
         time.sleep(0.1)
 
