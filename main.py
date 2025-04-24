@@ -48,6 +48,7 @@ while True:
 
 o.enter_registration_otp(otp=code)
 
+old_code = code
 START, code = time.time(), None
 
 while True:
@@ -58,7 +59,7 @@ while True:
 
         print(code)
 
-        if code:
+        if code and code != old_code:
             break
 
         time.sleep(3)
