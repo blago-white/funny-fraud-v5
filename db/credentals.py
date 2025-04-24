@@ -63,20 +63,21 @@ class OwnerCredentalsRepository(SimpleConcurrentRepository):
         with open(self._credentals_file, "r", encoding="utf-8") as file:
             credentals_list = file.readlines()
 
-        print(credentals_list)
-
         with open(self._credentals_file, "w", encoding="utf-8") as file:
             if len(credentals_list) == 1:
                 raise CredentalsListEndedError("Update the row sheet")
 
+            iterations: int = 1
+
             while True:
-                last_credentals = credentals_list[0]
+                last_credentals = credentals_list[iterations-1]
 
-                if self._validate_credentals(credentals=Cre)
+                if self._validate_credentals(credentals=OwnerCredentalsContainer(credentals=last_credentals)):
+                    file.writelines(credentals_list[iterations:])
 
-            file.writelines(credentals_list[1:])
+                    return OwnerCredentalsContainer(credentals=last_credentals)
 
-        return OwnerCredentalsContainer(credentals=last_credentals)
+                iterations += 1
 
     @SimpleConcurrentRepository.locked()
     def restore_unused(self, credentals: OwnerCredentalsContainer):

@@ -3,7 +3,7 @@ import dotenv
 
 dotenv.load_dotenv()
 
-from parser.parser import OfferInitializerParser
+from parser.parser.parser import OfferInitializerParser
 
 from parser.profiles.drivers import WebDriversService
 
@@ -12,7 +12,7 @@ from parser.sms.helper import HelperSMSService
 
 sms_service = HelperSMSService(apikey="OXsOOoh2EMPSf5kWwwrT")
 
-o = OfferInitializerParser(payments_card=None, driver=(WebDriversService().get_desctop(worker_id=111))[-1])
+o = OfferInitializerParser(driver=(WebDriversService().get_desctop(worker_id=111))[-1])
 
 number_id, number = sms_service.get_number()
 
