@@ -37,7 +37,7 @@ class OfferInitializerParser:
 
             self._select_registration_provider()
         else:
-            self._reenter_phone(new_phone=phone)
+            self._back_to_entering_phone(new_phone=phone)
 
         self._enter_phone(phone=phone)
 
@@ -185,10 +185,8 @@ class OfferInitializerParser:
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
             0].click()
 
-    def _reenter_phone(self, new_phone: str):
+    def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
-
-        self._enter_phone(phone=new_phone)
 
     def _select_employment_type(self):
         WebDriverWait(self._driver, 50).until(
