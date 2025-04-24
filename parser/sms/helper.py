@@ -4,7 +4,6 @@ import time
 
 from helper20sms.helper20sms import Helper20SMS, BadApiKeyProvidedException
 
-from db.sms import HelperSmsServiceApikeyRepository
 
 from .exceptions import NumberGettingException
 from .base import BaseSmsService
@@ -17,12 +16,10 @@ class HelperSMSService(BaseSmsService):
 
     def __init__(self, apikey: str = None,
                  sms_service: Helper20SMS = None):
-        super().__init__(
-            apikey=apikey or HelperSmsServiceApikeyRepository().get_current()
-        )
+        super().__init__()
 
         self._sms_service = sms_service or Helper20SMS(
-            api_key=self._apikey
+            api_key=apikey
         )
 
         try:
