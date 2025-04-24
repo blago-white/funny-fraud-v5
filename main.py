@@ -14,7 +14,12 @@ sms_service = HelperSMSService(apikey="OXsOOoh2EMPSf5kWwwrT")
 
 o = OfferInitializerParser(driver=(WebDriversService().get_desctop(worker_id=111))[-1])
 
+number_id = None
+
 while True:
+    if number_id:
+        sms_service.cancel(phone_id=number_id)
+
     number_id, number = sms_service.get_number()
 
     print(f"TRY : {number}")
