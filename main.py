@@ -31,6 +31,8 @@ while True:
 
         if code:
             break
+
+        time.sleep(3)
     else:
         continue
     break
@@ -47,6 +49,8 @@ while True:
 
         if code:
             break
+
+        time.sleep(3)
     else:
         continue
     break
