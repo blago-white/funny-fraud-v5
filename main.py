@@ -32,7 +32,7 @@ while True:
     START, code = time.time(), None
 
     while time.time() - START < 60*1.2:
-        code = sms_service.check_code(phone_id=number_id)
+        code = "".join([i for i in sms_service.check_code(phone_id=number_id) if i.isdigit()][:4])
 
         print(time.time() - START, code)
 
@@ -50,7 +50,7 @@ START, code = time.time(), None
 
 while True:
     while time.time() - START < 60*2:
-        code = sms_service.check_code(phone_id=number_id)
+        code = "".join([i for i in sms_service.check_code(phone_id=number_id) if i.isdigit()][:4])
 
         print(code)
 
