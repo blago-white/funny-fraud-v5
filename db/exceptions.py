@@ -1,0 +1,2 @@
+class CredentalsListEndedError(Exception):
+    pass

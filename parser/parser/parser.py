@@ -7,45 +7,23 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumwire.webdriver import Chrome
 
-from . import utils, exceptions, data
+from db import credentals
+from . import exceptions, data
 
 
 class OfferInitializerParser:
     _form_already_inited: bool = False
-    _card_data_already_entered: bool = False
-    _card_data_page_path: str = None
-    _account_not_logined: bool = None
-
-    _OWNER_DATA_FIELDS_IDS = [
-        "input[name='firstName']",
-        "input[name='lastName']",
-        "input[name='dob']",
-        "input[name='password']",
-        "input[name='confirmPassword']",
-        "input[name='email']",
-    ]
-
-    _PAYMENT_CARD_FIELDS_IDS = [
-        "input[id='pan']",
-        "input[id='expiry']",
-        "input[id='cvc']"
-    ]
 
     def __init__(
-            self, payments_card: utils.PaymentsCardData,
-            driver: Chrome,
-            owner_data_generator: utils.OwnerCredentalsRepository = None):
+            self, driver: Chrome,
+            owner_data_generator: credentals.OwnerCredentalsContainer = None):
         self._driver = driver
 
-        self._payments_card = payments_card
-
-        if type(payments_card) is str:
-            self._payments_card = utils.PaymentsCardData.generate(
-                self._payments_card
+        self._owner_data_generator = (
+            owner_data_generator or credentals.OwnerCredentalsContainer(
+                credentals="'ESIA';'16da72fe-f3df-4cb9-9f3f-b8cd20695608';'2022-10-07 20:06:39';'erl-portal';'Мерцалов';'Максим';'Сергеевич';'Мерцалов';'Максим';'Сергеевич';'MALE';'02.10.1984';'13094123931';'572004416883';'Россия, Орловская обл, Орловский р-н, Плещеево с, 302531, Луговая ул, д. 2, кв. 3';'Россия, Орловская обл, Орловский р-н, Плещеево с, 302531, Луговая ул, д. 2, кв. 3';'5403 830630, выдан 11.10.2004 Орловским РОВД Орловской Области 572019';'5403';'830630';'572-019';'Орловским РОВД Орловской Области';'11.10.2004';'GOOD';'maxim.mertsalow@yandex.ru';'+79202872928';;;;;;;;'false';;'1011137694'"
             )
-
-        self._owner_data_generator = (owner_data_generator or
-                                      utils.OwnerCredentalsRepository(credentals="'ESIA';'172181b3-e5d7-4919-892e-8346d1d9c274';'2022-05-15 14:32:18';'erl-portal';'Крупнова';'Елена';'Анатольевна';'КРУПНОВА';'ЕЛЕНА';'АНАТОЛЬЕВНА';'FEMALE';'20.05.1978';'07492621786';'390704967978';'Россия, Калининградская обл, г Калининград, 236001, Ю.Маточкина ул, д. 14, кв. 30';'Россия, Калининградская обл, г Калининград, 236001, Ю.Маточкина ул, д. 14, кв. 30';'2701 265955, выдан 14.08.2001 ОВД МОСКОВСКОГО Р-НА Г КАЛИНИНГРАДА 392003';'2701';'265955';'392-003';'ОВД МОСКОВСКОГО Р-НА Г КАЛИНИНГРАДА';'14.08.2001';'GOOD';'elenka-krupnova@mail.ru';;;;;;;;;'false';;'243796514'"))
+        )
 
     @property
     def driver(self):
@@ -98,42 +76,58 @@ class OfferInitializerParser:
         if not passport.is_male:
             self._driver.find_element(By.ID, "personal-form_gender-female")
 
-        self._driver.find_element(By.ID, "personal-form_input-series").send_keys(passport.serial_number)
-        self._driver.find_element(By.ID, "personal-form_input-number").send_keys(passport.id)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-series").send_keys(
+            passport.serial_number)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-number").send_keys(
+            passport.id)
 
         time.sleep(.5)
 
         self._driver.find_element(By.ID, "personal-form_input-date").click()
-        self._driver.find_element(By.ID, "personal-form_input-date").send_keys(passport.date_issue)
+        self._driver.find_element(By.ID, "personal-form_input-date").send_keys(
+            passport.date_issue)
 
         time.sleep(.5)
 
         self._driver.find_element(By.ID, "personal-form_input-code").click()
-        self._driver.find_element(By.ID, "personal-form_input-code").send_keys(passport.unit_code)
+        self._driver.find_element(By.ID, "personal-form_input-code").send_keys(
+            passport.unit_code)
         print("WOWWW")
 
         time.sleep(3)
 
-        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[0].click()
+        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[
+            0].click()
 
         input()
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID, "personal-form_input-birthdate").click()
-        self._driver.find_element(By.ID, "personal-form_input-birthdate").send_keys(passport.birthday_date)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-birthdate").click()
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-birthdate").send_keys(
+            passport.birthday_date)
 
         time.sleep(.5)
 
         print(f"BIRTHPLACE !!! {passport.birthplace}")
 
-        self._driver.find_element(By.ID, "personal-form_input-birthplace").click()
-        self._driver.find_element(By.ID, "personal-form_input-birthplace").send_keys(passport.birthplace)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-birthplace").click()
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-birthplace").send_keys(
+            passport.birthplace)
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").click()
-        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(passport.birthplace)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-registrationAddress").click()
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-registrationAddress").send_keys(
+            passport.birthplace)
 
         time.sleep(5)
 
@@ -141,40 +135,50 @@ class OfferInitializerParser:
 
         # time.sleep(5)
 
-        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(Keys.ARROW_UP)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-registrationAddress").send_keys(
+            Keys.ARROW_UP)
 
         time.sleep(5)
 
-        self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(Keys.ENTER)
+        self._driver.find_element(By.ID,
+                                  "personal-form_input-registrationAddress").send_keys(
+            Keys.ENTER)
 
         time.sleep(5)
 
         self._driver.find_element(By.ID, "application_snils").click()
-        self._driver.find_element(By.ID, "application_snils").send_keys(passport.snils_number)
+        self._driver.find_element(By.ID, "application_snils").send_keys(
+            passport.snils_number)
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
+            0].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[1].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
+            1].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
+            2].click()
         self._click_selector(number=random.randint(1, 3))
 
-        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
+            0].click()
 
         time.sleep(20)
 
     def enter_owner_funds_status(self):
         self._select_employment_type()
 
-        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
+            0].click()
 
     def _select_employment_type(self):
         WebDriverWait(self._driver, 50).until(
@@ -187,7 +191,8 @@ class OfferInitializerParser:
             By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
         )[0].click()
 
-        random_working_strategy = 0 if random.randint(0, 100) < 10 else (random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
+        random_working_strategy = 0 if random.randint(0, 100) < 10 else (
+            random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
 
         self._click_selector(number=random_working_strategy)
 
@@ -195,7 +200,9 @@ class OfferInitializerParser:
             By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
         )[1].click()
 
-        self._click_selector(number=(random.randint(8, 15) if random.random() < .8 else random.randint(5, 8)) if random.random() < .9 else random.randint(15, 20))
+        self._click_selector(number=(
+            random.randint(8, 15) if random.random() < .8 else random.randint(
+                5, 8)) if random.random() < .9 else random.randint(15, 20))
 
         if random_working_strategy < 4:
             company_info_input = self._driver.find_element(
@@ -237,7 +244,8 @@ class OfferInitializerParser:
 
             time.sleep(1.5)
 
-            self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")[1].click()
+            self._driver.find_elements(By.CLASS_NAME,
+                                       "new-ui-dropdown-option")[1].click()
 
             time.sleep(1)
 
@@ -268,7 +276,8 @@ class OfferInitializerParser:
 
             self._click_random_selector()
 
-        inputs_group = self._driver.find_elements(By.CLASS_NAME, "new-ui-input__wrapper")
+        inputs_group = self._driver.find_elements(By.CLASS_NAME,
+                                                  "new-ui-input__wrapper")
         inputs_group[0].send_keys(
             f"{random.randint(80, 350)}0{random.randint(0, 9)}0"
         )
@@ -277,18 +286,20 @@ class OfferInitializerParser:
         )
 
     def _click_random_selector(self):
-        selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
+        selectors = self._driver.find_elements(By.CLASS_NAME,
+                                               "new-ui-dropdown-option")
 
-        selectors[random.randint(0, len(selectors)-1)].click()
+        selectors[random.randint(0, len(selectors) - 1)].click()
 
     def _click_selector(self, number: int):
-        selectors = self._driver.find_elements(By.CLASS_NAME, "new-ui-dropdown-option")
+        selectors = self._driver.find_elements(By.CLASS_NAME,
+                                               "new-ui-dropdown-option")
 
         try:
             selectors[number].click()
         except Exception as e:
             print(f"ERROR CLICK SELECTOR: {e}")
-            selectors[number+1].click()
+            selectors[number + 1].click()
 
     def _enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
@@ -303,7 +314,8 @@ class OfferInitializerParser:
 
         passport = self._owner_data_generator.get_passport_data()
 
-        full_name = f"{passport.firstname.capitalize()} {passport.lastname.capitalize()} " + ("" or passport.patronymic.capitalize())
+        full_name = f"{passport.firstname.capitalize()} {passport.lastname.capitalize()} " + (
+                    "" or passport.patronymic.capitalize())
 
         name_input.send_keys(full_name)
 
@@ -331,7 +343,8 @@ class OfferInitializerParser:
         )[0].click()
 
     def _click_first_selector(self):
-        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[0].click()
+        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[
+            0].click()
 
     def _enter_password(self):
         WebDriverWait(self._driver, 15).until(
@@ -350,7 +363,8 @@ class OfferInitializerParser:
             self._owner_data_generator.get_random_password()
         )
 
-        self._driver.find_element(By.ID, "simple-registration-button-set-password").click()
+        self._driver.find_element(By.ID,
+                                  "simple-registration-button-set-password").click()
 
     def _enter_registration_otp(self, otp: int | str):
         otp = str(otp)
@@ -362,7 +376,8 @@ class OfferInitializerParser:
         )
 
         for number, otp_char in enumerate(otp, start=1):
-            self._driver.find_element(By.ID, f"simple-registration-code-input-{number}").send_keys(
+            self._driver.find_element(By.ID,
+                                      f"simple-registration-code-input-{number}").send_keys(
                 otp_char
             )
 
@@ -403,7 +418,8 @@ class OfferInitializerParser:
         self._check_number_entered(phone=phone)
 
     def _check_number_entered(self, phone: str):
-        phone_label = self._driver.find_element(By.CSS_SELECTOR, 'span[x-text="phone"]')
+        phone_label = self._driver.find_element(By.CSS_SELECTOR,
+                                                'span[x-text="phone"]')
 
         for phone_symbol in phone:
             print(f"{phone_symbol} : {phone_label.text}")
@@ -415,16 +431,19 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 15).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m")
+                    (By.CSS_SELECTOR,
+                     ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m")
                 )
             )
         except:
             try:
-                self._driver.execute_script("document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
+                self._driver.execute_script(
+                    "document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
             except:
                 raise exceptions.TraficBannedError()
 
-        self._driver.execute_script("document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
+        self._driver.execute_script(
+            "document.getElementsByClassName('TermsServicesPlate_plate__eA7cc')[0].remove()")
 
         time.sleep(5)
 
@@ -432,7 +451,8 @@ class OfferInitializerParser:
 
         try:
             self._driver.find_element(
-                By.CSS_SELECTOR, ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
+                By.CSS_SELECTOR,
+                ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
             ).click()
         except:
             print("FUCK")
@@ -444,14 +464,16 @@ class OfferInitializerParser:
         try:
             WebDriverWait(self._driver, 50).until(
                 expected_conditions.element_to_be_clickable(
-                    (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
+                    (By.XPATH,
+                     "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button")
                 )
             )
         except:
             raise exceptions.TraficBannedError()
 
         self._driver.find_element(
-            By.XPATH, "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
+            By.XPATH,
+            "/html/body/div[1]/div/div/div[1]/div/div/div[2]/div/div/div[1]/div[2]/button"
         ).click()
 
     def _enter_text_to_field(self, field: "SeleniumWebElement", text: str):
@@ -460,4 +482,3 @@ class OfferInitializerParser:
         for letter in text:
             field.send_keys(letter)
             time.sleep(random.random() + 0.1)
-
