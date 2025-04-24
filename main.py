@@ -27,6 +27,8 @@ while True:
     while time.time() - START < 60*2:
         code = sms_service.check_code(phone_id=number_id)
 
+        print(code)
+
         if code:
             break
     else:
@@ -40,6 +42,8 @@ START, code = time.time(), None
 while True:
     while time.time() - START < 60*2:
         code = sms_service.check_code(phone_id=number_id)
+
+        print(code)
 
         if code:
             break
