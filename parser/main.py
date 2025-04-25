@@ -21,7 +21,7 @@ class LeadsGenerator:
     def __init__(
             self, parser_class: OfferInitializerParser = None,
             db_service: LeadGenerationResultsService = None,
-            sms_service: ElSmsSMSCodesService = None,
+            sms_service: HelperSMSService = None,
             drivers_service: WebDriversService = None,
             # proxy_service: ProxyRepository = None
     ):
@@ -31,7 +31,7 @@ class LeadsGenerator:
         self._sms_service = sms_service or self.default_sms_service()
         self._drivers_service = drivers_service or self.default_drivers_service
 
-    @session_results_commiter()
+    @session_results_commiter
     def generate(
             self, session_id: int,
             lead_id: int,
