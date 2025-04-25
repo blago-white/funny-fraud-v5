@@ -12,7 +12,7 @@ from .middleware import SmsRequestsStatMiddleware, SmsServiceThrottlingMiddlewar
 
 class HelperSMSService(BaseSmsService):
     _sms_service: Helper20SMS = None
-    SMS_TIMEOUT = 60*2
+    SMS_TIMEOUT = 60*1.5
 
     def __init__(self, apikey: str = None,
                  sms_service: Helper20SMS = None):
