@@ -1,18 +1,14 @@
 import time
 from typing import TYPE_CHECKING
 
-from parser.exceptions import ClientAbortedOtpValidation, \
-    CreatePaymentFatalError
-from parser.sessions import LeadsGenerationSession
+from parser.transfer import LeadsGenerationSession
 from requests.exceptions import JSONDecodeError
 
+from db.credentals import CredentalsListEndedError
 from db.credentals import OwnerCredentalsRepository
 from db.transfer import LeadGenResultStatus, LeadGenResult
-from db.credentals import CredentalsListEndedError
 from parser.parser import exceptions
-
 from parser.parser.parser import OfferInitializerParser
-from parser.transfer import LeadsGenerationSession
 
 if TYPE_CHECKING:
     from parser.main import LeadsGenerator
