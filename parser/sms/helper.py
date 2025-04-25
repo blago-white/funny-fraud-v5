@@ -21,6 +21,7 @@ class HelperSMSService(BaseSmsService):
         self._sms_service = sms_service or Helper20SMS(
             api_key=apikey or "OXsOOoh2EMPSf5kWwwrT"
         )
+        self._apikey = apikey or "OXsOOoh2EMPSf5kWwwrT"
 
         try:
             print(f"HELPER SMS BALANCE: {self._sms_service.get_balance()}")
