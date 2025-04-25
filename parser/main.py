@@ -111,6 +111,8 @@ class LeadsGenerator:
 
         previous_code = self._sms_service.check_code(phone_id=phone_id)
 
+        code = previous_code
+
         while code == previous_code:
             if (time.time() - start_time) > self._sms_service.SMS_TIMEOUT:
                 self._sms_service.cancel(phone_id=phone_id)
