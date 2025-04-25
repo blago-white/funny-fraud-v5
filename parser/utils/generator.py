@@ -122,7 +122,7 @@ def session_results_commiter(func):
         except (exceptions.TraficBannedError, exceptions.InitializingError):
             OwnerCredentalsRepository().restore_unused(credentals=owner_credentals)
 
-            _close_driver(drivers_service=driver(), pid=pid, initializer=parser)
+            _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
             return wrapped(
                 *args,
@@ -132,7 +132,7 @@ def session_results_commiter(func):
         except Exception as e:
             print(f"LEAD #{lead_id} FATAL ERROR : {e}")
 
-            _close_driver(drivers_service=driver(), pid=pid, initializer=parser)
+            _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
             return self._db_service.mark_failed(
                 session_id=session_id,
