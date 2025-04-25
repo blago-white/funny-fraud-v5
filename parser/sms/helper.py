@@ -19,7 +19,7 @@ class HelperSMSService(BaseSmsService):
         super().__init__()
 
         self._sms_service = sms_service or Helper20SMS(
-            api_key=apikey
+            api_key=apikey or "OXsOOoh2EMPSf5kWwwrT"
         )
 
         try:
