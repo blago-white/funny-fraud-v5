@@ -3,7 +3,6 @@ import time
 
 from .base import DefaulConcurrentRepository
 from .transfer import LeadGenResult, LeadGenResultStatus, STATUS_MAPPING
-from ._utils import code_is_blocking
 
 
 class LeadGenerationResultsService(DefaulConcurrentRepository):
@@ -157,11 +156,6 @@ class LeadGenerationResultsService(DefaulConcurrentRepository):
         session = self.get(session_id=session_id)
 
         if not session:
-            return False
-
-        if any([code_is_blocking(l.status)
-                for l in session
-                if l.lead_id != lead_id]):
             return False
 
         id_ = f"sessions:session#{session_id}"
