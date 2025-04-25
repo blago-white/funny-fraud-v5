@@ -64,7 +64,7 @@ class OwnerCredentalsRepository(SimpleConcurrentRepository):
             credentals_list = file.readlines()
 
         with open(self._credentals_file, "w", encoding="utf-8") as file:
-            if len(credentals_list) == 1:
+            if len(credentals_list) == 0:
                 raise CredentalsListEndedError("Update the row sheet")
 
             iterations: int = 1
