@@ -66,7 +66,7 @@ def session_results_commiter(func):
             # proxy = self._proxy_service.next()
 
             try:
-                pid, driver = self._drivers_service.get_desctop(
+                pid, driver = self._drivers_service().get_desctop(
                     # proxy=proxy,
                     worker_id=lead_id + 1
                 )
