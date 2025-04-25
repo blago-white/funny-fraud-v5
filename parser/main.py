@@ -7,6 +7,7 @@ from .profiles.drivers import WebDriversService
 from .parser.parser import OfferInitializerParser
 from .parser import exceptions as parser_exceptions
 from .transfer import LeadsGenerationSession
+from .parser.utils.generator import session_results_commiter
 
 
 class LeadsGenerator:
@@ -15,7 +16,7 @@ class LeadsGenerator:
     default_sms_service: HelperSMSService = HelperSMSService
     default_drivers_service: WebDriversService = WebDriversService
 
-    _PHONE_ATTEMPTS_COUNT = 5
+    _PHONE_ATTEMPTS_COUNT = 3
 
     def __init__(
             self, parser_class: OfferInitializerParser = None,
@@ -30,6 +31,7 @@ class LeadsGenerator:
         self._sms_service = sms_service or self.default_sms_service()
         self._drivers_service = drivers_service or self.default_drivers_service
 
+    @session_results_commiter()
     def generate(
             self, session_id: int,
             lead_id: int,
