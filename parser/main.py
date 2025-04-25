@@ -1,6 +1,6 @@
 from db.leads import LeadGenerationResultsService, LeadGenResultStatus, \
     LeadGenResult
-from sms.helper import HelperSMSService
+from parser.sms.helper import HelperSMSService
 
 from .utils import exceptions
 from .profiles.drivers import WebDriversService
