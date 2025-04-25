@@ -7,7 +7,7 @@ from .profiles.drivers import WebDriversService
 from .parser.parser import OfferInitializerParser
 from .parser import exceptions as parser_exceptions
 from .transfer import LeadsGenerationSession
-from .parser.utils.generator import session_results_commiter
+from .utils.generator import session_results_commiter
 
 
 class LeadsGenerator:
