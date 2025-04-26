@@ -4,7 +4,7 @@ import time
 
 from helper20sms.helper20sms import Helper20SMS, BadApiKeyProvidedException
 
-
+from db.sms import HelperSmsServiceApikeyRepository
 from .exceptions import NumberGettingException
 from .base import BaseSmsService
 from .middleware import SmsRequestsStatMiddleware, SmsServiceThrottlingMiddleware
@@ -16,12 +16,13 @@ class HelperSMSService(BaseSmsService):
 
     def __init__(self, apikey: str = None,
                  sms_service: Helper20SMS = None):
-        super().__init__()
+        super().__init__(
+            apikey=apikey or HelperSmsServiceApikeyRepository().get_current() or "8147724474:AAE8gQZzD0MieBYYzqiCqGSlPA4lqTWqRi4"
+        )
 
         self._sms_service = sms_service or Helper20SMS(
-            api_key=apikey or "OXsOOoh2EMPSf5kWwwrT"
+            api_key=self._apikey
         )
-        self._apikey = apikey or "OXsOOoh2EMPSf5kWwwrT"
 
         try:
             print(f"HELPER SMS BALANCE: {self._sms_service.get_balance()}")

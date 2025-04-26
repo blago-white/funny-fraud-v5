@@ -110,7 +110,6 @@ class LeadsGenerator:
         code, start_time = None, time.time()
 
         previous_code = self._sms_service.check_code(phone_id=phone_id)
-
         code = previous_code
 
         while code == previous_code:
