@@ -64,6 +64,8 @@ class LeadGenerationResultsService(DefaulConcurrentRepository):
                 proxy=l.split("@")[4]
             ) for l in leads]
         except:
+            print("LEADS", leads)
+
             return []
 
         return [l for l in session_leads
@@ -86,7 +88,7 @@ class LeadGenerationResultsService(DefaulConcurrentRepository):
                                  f"{result.status}@"
                                  f"{result.error}@"
                                  f"{result.ref_link}@"
-                                 f"{result.proxy}&"
+                                 f"{result.proxy or 'localhost'}&"
                            )
 
             return id_, 0
@@ -99,7 +101,7 @@ class LeadGenerationResultsService(DefaulConcurrentRepository):
                            f"{result.status}@"
                            f"{result.error}@"
                            f"{result.ref_link}@"
-                           f"{result.proxy}"
+                           f"{result.proxy or 'localhost'}"
                        ])
                        )
 
