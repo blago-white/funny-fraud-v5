@@ -9,7 +9,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 
 from bot.keyboards.inline import generate_leads_statuses_kb, \
     get_session_presets_kb
-from bot.keyboards.reply import MAIN_MENU_KB
+from bot.keyboards.reply import MAIN_MENU_KB, APPROVE_KB
 from bot.states.forms import SessionForm
 from db.gologin import GologinApikeysRepository
 from db.leads import LeadGenerationResultsService
@@ -134,18 +134,21 @@ async def process_ref_link(message: Message, state: FSMContext):
 
     await state.set_state(state=SessionForm.approve_session)
 
+    await message.reply(text="✅ Отлично, форма заполнена!\n",
+                        reply_markup=APPROVE_KB)
+
     await message.reply(
         text=f"| Кол-во запросов: "
              f"{current_session_form.get("count_requests")}\n"
              f"| Реф. ссылки: <code>"
-             f"{', '.join(current_session_form.get("ref_links"))}"
+             f"{', '.join(ref_links)}"
              f"</code>\n",
         reply_markup=get_session_presets_kb(),
     )
 
 
 @router.message(SessionForm.approve_session)
-@db_services_provider(provide_gologin=False)
+@db_services_provider(provide_gologin=False, provide_leads=False)
 @leads_service_provider
 async def approve_session(
         message: Message, state: FSMContext,
@@ -167,13 +170,9 @@ async def approve_session(
 
     sms_service = HelperSMSService()
 
-    try:
-        sms_service_balance = sms_service.balance
-    except:
-        sms_service_balance = None
+    sms_service_balance = sms_service.balance
 
     await state.clear()
-    await state.set_state(state=PaymentCodeSettingForm.wait_payment_code)
 
     sended = await message.bot.send_message(
         chat_id=message.chat.id,
@@ -272,7 +271,7 @@ async def _start_session_keyboard_pooling(
                         text=labels.SESSION_INFO.format(*(
                                 new_stats + [
                             sms_service_balance, balance_delta
-                        ] + [call_stack.supervisor_label]
+                        ]
                         )),
                         reply_markup=generate_leads_statuses_kb(leads=leads)
                     )

@@ -9,6 +9,7 @@ from .profiles.drivers import WebDriversService
 from .parser.parser import OfferInitializerParser
 from .parser import exceptions as parser_exceptions
 from .transfer import LeadsGenerationSession
+from .sms.middleware.throttling import SmsServiceThrottlingMiddleware
 from .utils.generator import session_results_commiter
 
 
@@ -32,6 +33,34 @@ class LeadsGenerator:
         # self._proxy_service = proxy_service or ProxyRepository()
         self._sms_service = sms_service or self.default_sms_service()
         self._drivers_service = drivers_service or self.default_drivers_service
+
+    @session_results_commiter
+    def mass_generate(self, data: LeadsGenerationSession):
+        print(self._sms_service, "SMS SERVICE")
+
+        new_session_id = self._db_service.get_count()
+
+        self._db_service.init(session_id=new_session_id)
+
+        threads = []
+
+        SmsServiceThrottlingMiddleware.clean_buffer()
+
+        for ref_link in data.ref_links:
+            threads.extend([threading.Thread(
+                target=self.generate,
+                kwargs=dict(
+                    session_id=new_session_id,
+                    session=LeadsGenerationSession(
+                        ref_link=ref_link,
+                        count=1,
+                    )),
+            ) for _ in range(data.count)])
+
+        for t in threads:
+            t.start()
+
+        return new_session_id
 
     @session_results_commiter
     def generate(
