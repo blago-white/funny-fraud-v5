@@ -134,10 +134,12 @@ def session_results_commiter(func):
 
             _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
-            return self._db_service.mark_failed(
+            self._db_service.mark_failed(
                 session_id=session_id,
                 lead_id=lead_id,
                 error=f"Parser initialization error: {str(e)}"
             )
+
+            raise e
 
     return wrapped

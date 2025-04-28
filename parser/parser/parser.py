@@ -182,8 +182,7 @@ class OfferInitializerParser:
     def enter_owner_funds_status(self):
         self._select_employment_type()
 
-        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
-            0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
     def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
@@ -202,15 +201,21 @@ class OfferInitializerParser:
         random_working_strategy = 0 if random.randint(0, 100) < 10 else (
             random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
 
+        print(f"WORK STRAT: {random_working_strategy}")
+
         self._click_selector(number=random_working_strategy)
 
         self._driver.find_elements(
             By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
         )[1].click()
 
+        print("CLICK [1]")
+
         self._click_selector(number=(
             random.randint(8, 15) if random.random() < .8 else random.randint(
                 5, 8)) if random.random() < .9 else random.randint(15, 20))
+
+        print("CLICK [2]")
 
         if random_working_strategy < 4:
             company_info_input = self._driver.find_element(
@@ -222,17 +227,23 @@ class OfferInitializerParser:
                 text=random.choice(data.Companies.choises)
             )
 
+            print("COMPANY")
+
             time.sleep(2)
 
             self._driver.find_element(
                 By.CSS_SELECTOR, 'div[data-qa="job-select__option"]'
             ).click()
 
+            print("CLICK [3]")
+
             time.sleep(1)
 
             start_working_date_field = self._driver.find_elements(
                 By.CLASS_NAME, "new-ui-input-base__container"
             )[0]
+
+            print("START WORKING DATE")
 
             self._enter_text_to_field(
                 field=start_working_date_field,
@@ -244,6 +255,8 @@ class OfferInitializerParser:
             post_title = self._driver.find_elements(
                 By.CLASS_NAME, "new-ui-input-base__container"
             )[1]
+
+            print("POST TITLE")
 
             self._enter_text_to_field(
                 field=post_title,
@@ -257,6 +270,8 @@ class OfferInitializerParser:
 
             time.sleep(1)
 
+            print("CLICK [4]")
+
             work_phone = self._driver.find_elements(
                 By.CLASS_NAME, "new-ui-input-base__container"
             )[1]
@@ -269,6 +284,8 @@ class OfferInitializerParser:
                 )
             )
 
+            print("CLICK [5]")
+
             employees_count = self._driver.find_element(
                 By.CSS_SELECTOR,
                 ".new-ui-select__activator.-primary.-medium"
@@ -276,22 +293,34 @@ class OfferInitializerParser:
 
             employees_count.click()
 
+            print("CLICK [6]")
+
             self._click_selector(number=-1)
         elif random_working_strategy == 6:
             self._driver.find_elements(
                 By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
             )[2].click()
 
+            print("CLICK [7]")
+
             self._click_random_selector()
 
         inputs_group = self._driver.find_elements(By.CLASS_NAME,
                                                   "new-ui-input__wrapper")
+
+        print("CLICK [8]")
+
         inputs_group[0].send_keys(
             f"{random.randint(80, 350)}0{random.randint(0, 9)}0"
         )
+
+        print("CLICK [9]")
+
         inputs_group[1].send_keys(
             f"{random.randint(0, 25) * 1000}"
         )
+
+        print("CLICK [10]")
 
     def _click_random_selector(self):
         selectors = self._driver.find_elements(By.CLASS_NAME,
