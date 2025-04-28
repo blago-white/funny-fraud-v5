@@ -53,15 +53,18 @@ class LeadGenerationResultsService(DefaulConcurrentRepository):
 
         leads = [i for i in leads.split("&") if i]
 
-        session_leads = [LeadGenResult(
-            session_id=session_id,
-            lead_id=int(l.split("@")[0]),
-            status=STATUS_MAPPING.get(l.split("@")[1],
-                                      LeadGenResultStatus.FAILED),
-            error=l.split("@")[2],
-            ref_link=l.split("@")[3],
-            proxy=l.split("@")[4]
-        ) for l in leads]
+        try:
+            session_leads = [LeadGenResult(
+                session_id=session_id,
+                lead_id=int(l.split("@")[0]),
+                status=STATUS_MAPPING.get(l.split("@")[1],
+                                          LeadGenResultStatus.FAILED),
+                error=l.split("@")[2],
+                ref_link=l.split("@")[3],
+                proxy=l.split("@")[4]
+            ) for l in leads]
+        except:
+            return []
 
         return [l for l in session_leads
                 if not lead_id or l.lead_id == lead_id]
