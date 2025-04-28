@@ -34,7 +34,6 @@ class LeadsGenerator:
         self._sms_service = sms_service or self.default_sms_service()
         self._drivers_service = drivers_service or self.default_drivers_service
 
-    @session_results_commiter
     def mass_generate(self, data: LeadsGenerationSession):
         print(self._sms_service, "SMS SERVICE")
 
