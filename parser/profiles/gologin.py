@@ -51,13 +51,13 @@ class GologinProfilesManager:
             },
             'proxyEnabled': False,
 
-            # 'proxy': {
-            #     'mode': 'http',
-            #     'host': proxy.split("@")[1].split(":")[0],
-            #     'port': proxy.split("@")[1].split(":")[-1],
-            #     'username': proxy.split(":")[0],
-            #     'password': proxy.split("@")[0].split(":")[-1],
-            # },
+            'proxy': {
+                'mode': 'http',
+                'host': proxy.split("@")[1].split(":")[0],
+                'port': proxy.split("@")[1].split(":")[-1],
+                'username': proxy.split(":")[0],
+                'password': proxy.split("@")[0].split(":")[-1],
+            },
             "webRTC": {
                 "mode": "alerted",
                 "enabled": True,

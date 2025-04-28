@@ -10,6 +10,8 @@ from aiogram.enums import ParseMode
 
 from bot.handlers.messages.sms import router as sms_router
 from bot.handlers.messages.sessions import router as sessions_router
+from bot.handlers.messages.gologin import router as gologin_router
+from bot.handlers.messages.proxy import router as proxy_router
 
 
 async def main():
@@ -24,6 +26,8 @@ async def main():
 
     dp.include_routers(sessions_router)
     dp.include_routers(sms_router)
+    dp.include_routers(gologin_router)
+    dp.include_routers(proxy_router)
 
     await dp.start_polling(bot)
 

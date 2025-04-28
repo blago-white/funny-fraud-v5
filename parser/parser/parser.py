@@ -106,8 +106,6 @@ class OfferInitializerParser:
         self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[
             0].click()
 
-        input()
-
         time.sleep(.5)
 
         self._driver.find_element(By.ID,

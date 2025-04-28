@@ -28,6 +28,8 @@ def session_results_commiter(func):
     def convert_ref_link(ref_link):
         if "utm_content" in ref_link:
             return ref_link.split('&utm_content=')[-1].split("&")[0]
+        elif "aff_id" in ref_link:
+            return ref_link.split('?aff_id=')[-1].split("&")[0]
         else:
             return ref_link
 
@@ -63,11 +65,11 @@ def session_results_commiter(func):
         for _ in range(10):
             time.sleep(lead_id*0.25)
 
-            # proxy = self._proxy_service.next()
+            proxy = self._proxy_service.next()
 
             try:
                 pid, driver = self._drivers_service().get_desctop(
-                    # proxy=proxy,
+                    proxy=proxy,
                     worker_id=lead_id + 1
                 )
                 break
