@@ -26,10 +26,8 @@ def session_results_commiter(func):
             return False
 
     def convert_ref_link(ref_link):
-        if "aff_id" in ref_link:
-            return ref_link.split('?aff_id=')[-1].split("&")[0]
-        elif "wmid" in ref_link:
-            return ref_link.split('&wmid=')[-1].split("=")[-1]
+        if "utm_content" in ref_link:
+            return ref_link.split('&utm_content=')[-1].split("&")[0]
         else:
             return ref_link
 
