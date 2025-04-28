@@ -138,6 +138,17 @@ class OfferInitializerParser:
 
         # time.sleep(5)
 
+        def dropdown_choices_exists():
+            try:
+                self._driver.find_element(By.CLASS_NAME, "ui-dropdown-option")
+                return True
+            except:
+                return False
+
+        while not dropdown_choices_exists():
+            self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(Keys.BACKSPACE)
+            time.sleep(4)
+
         self._driver.find_element(By.ID,
                                   "personal-form_input-registrationAddress").send_keys(
             Keys.ARROW_UP)
