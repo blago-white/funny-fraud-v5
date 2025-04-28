@@ -126,11 +126,10 @@ class OfferInitializerParser:
 
         time.sleep(.5)
 
-        self._driver.find_element(By.ID,
-                                  "personal-form_input-registrationAddress").click()
-        self._driver.find_element(By.ID,
-                                  "personal-form_input-registrationAddress").send_keys(
-            passport.birthplace)
+        registration_field = self._driver.find_element(By.ID, "personal-form_input-registrationAddress")
+
+        registration_field.click()
+        registration_field.send_keys(passport.birthplace)
 
         time.sleep(5)
 
@@ -140,23 +139,23 @@ class OfferInitializerParser:
 
         def dropdown_choices_exists():
             try:
-                self._driver.find_element(By.CLASS_NAME, "ui-dropdown-option")
-                return True
+                if len(self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")) > 1:
+                    return True
+                raise ValueError
             except:
                 return False
 
         while not dropdown_choices_exists():
-            self._driver.find_element(By.ID, "personal-form_input-registrationAddress").send_keys(Keys.BACKSPACE)
+            registration_field.send_keys(Keys.ARROW_DOWN)
+            registration_field.send_keys(Keys.BACKSPACE)
             time.sleep(4)
 
-        self._driver.find_element(By.ID,
-                                  "personal-form_input-registrationAddress").send_keys(
+        registration_field.send_keys(
             Keys.ARROW_UP)
 
         time.sleep(5)
 
-        self._driver.find_element(By.ID,
-                                  "personal-form_input-registrationAddress").send_keys(
+        registration_field.send_keys(
             Keys.ENTER)
 
         time.sleep(5)
