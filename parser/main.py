@@ -4,6 +4,7 @@ import time
 from db.leads import LeadGenerationResultsService, LeadGenResultStatus, \
     LeadGenResult
 from parser.sms.helper import HelperSMSService
+from db.proxy import ProxyRepository
 
 from .utils import exceptions
 from .profiles.drivers import WebDriversService
@@ -27,11 +28,11 @@ class LeadsGenerator:
             db_service: LeadGenerationResultsService = None,
             sms_service: HelperSMSService = None,
             drivers_service: WebDriversService = None,
-            # proxy_service: ProxyRepository = None
+            proxy_service: ProxyRepository = None
     ):
         self._parser_class = parser_class or self.default_parser_class
         self._db_service = db_service or self.default_leads_db()
-        # self._proxy_service = proxy_service or ProxyRepository()
+        self._proxy_service = proxy_service or ProxyRepository()
         self._sms_service = sms_service or self.default_sms_service()
         self._drivers_service = drivers_service or self.default_drivers_service
 
