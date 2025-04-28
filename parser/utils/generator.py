@@ -45,6 +45,8 @@ def session_results_commiter(func):
             kwargs.get("session_id"), kwargs.get("session")
         )
 
+        print("KWRGS", kwargs, kwargs.get("session"))
+
         session: LeadsGenerationSession
 
         if lead_id is None:
