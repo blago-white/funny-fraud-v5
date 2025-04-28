@@ -17,7 +17,7 @@ class HelperSMSService(BaseSmsService):
     def __init__(self, apikey: str = None,
                  sms_service: Helper20SMS = None):
         super().__init__(
-            apikey="OXsOOoh2EMPSf5kWwwrT" or apikey or HelperSmsServiceApikeyRepository().get_current()
+            apikey=apikey or HelperSmsServiceApikeyRepository().get_current()
         )
 
         self._sms_service = sms_service or Helper20SMS(
