@@ -147,8 +147,13 @@ class OfferInitializerParser:
 
         while not dropdown_choices_exists():
             registration_field.send_keys(Keys.ARROW_DOWN)
+            registration_field.send_keys(Keys.ARROW_DOWN)
+
+            time.sleep(1)
+
             registration_field.send_keys(Keys.BACKSPACE)
-            time.sleep(4)
+
+            time.sleep(3)
 
         registration_field.send_keys(
             Keys.ARROW_UP)
