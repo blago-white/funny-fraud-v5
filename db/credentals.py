@@ -72,8 +72,12 @@ class OwnerCredentalsRepository(SimpleConcurrentRepository):
             while True:
                 last_credentals = credentals_list[iterations-1]
 
+                print(f"CREDENTALS RETRIEVE: {last_credentals}")
+
                 if self._validate_credentals(credentals=OwnerCredentalsContainer(credentals=last_credentals)):
                     file.writelines(credentals_list[iterations:])
+
+                    print("SUCCESS RETRIEVED")
 
                     return OwnerCredentalsContainer(credentals=last_credentals)
 
