@@ -64,7 +64,7 @@ class HelperSMSService(BaseSmsService):
             response = self._sms_service.get_codes(order_id=phone_id)
         except Exception as e:
             print("EXCEPTION", e)
-            raise NumberGettingException(e)
+            return None
 
         if response.get("status") is True:
             try:
