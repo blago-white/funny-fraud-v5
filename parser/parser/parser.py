@@ -214,6 +214,8 @@ class OfferInitializerParser:
         random_working_strategy = 0 if random.randint(0, 100) < 10 else (
             random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
 
+        random_working_strategy = 0
+
         print(f"WORK STRAT: {random_working_strategy}")
 
         self._click_selector(number=random_working_strategy)
