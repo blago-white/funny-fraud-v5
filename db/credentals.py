@@ -78,16 +78,24 @@ class OwnerXLSCredentalsContainer:
         return f"{self.get_random_password()}@gmail.com"
 
     def get_passport_data(self) -> PassportData:
+        date_issue = str(self._credentals[7]).split(" ")[0].replace("-", "")
+
+        date_issue = date_issue[4:] + date_issue[:4]
+
+        birthday_date = str(self._credentals[3]).split(" ")[0].replace("-", "")
+
+        birthday_date = birthday_date[4:] + birthday_date[:4]
+
         return PassportData(
             serial_number=self._credentals[4].replace(" ", ""),
             id=self._credentals[5].replace(" ", ""),
             firstname=self._credentals[0].split(" ")[1],
             lastname=self._credentals[0].split(" ")[0],
             patronymic=self._credentals[0].split(" ")[2],
-            date_issue=str(self._credentals[7]).split(" ")[0].replace("-", "")[::-1],
+            date_issue=date_issue,
             unit_code=min(str(self._credentals[9]) or "", str(self._credentals[8]) or "", key=len).replace("-", ""),
             unit_name=self._credentals[6],
-            birthday_date=str(self._credentals[3]).split(" ")[0].replace("-", "")[::-1],
+            birthday_date=birthday_date,
             snils_number=self._credentals[-1],
             is_male=get_gender(name=self._credentals[0].split(" ")[0]) == 1,
             birthplace=drop_dublicates(self._credentals[2].split("РОССИЯ,")[-1]).removeprefix(",").removesuffix(",")
