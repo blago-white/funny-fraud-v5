@@ -363,7 +363,7 @@ class OfferInitializerParser:
 
         passport = self._owner_data_generator.get_passport_data()
 
-        full_name = f"{passport.firstname.capitalize()} {passport.lastname.capitalize()} " + (
+        full_name = f"{passport.lastname.capitalize()} {passport.firstname.capitalize()}" + (
                     "" or passport.patronymic.capitalize())
 
         name_input.send_keys(full_name)
