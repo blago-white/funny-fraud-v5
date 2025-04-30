@@ -84,11 +84,11 @@ class OwnerXLSCredentalsContainer:
             firstname=self._credentals[0].split(" ")[1],
             lastname=self._credentals[0].split(" ")[0],
             patronymic=self._credentals[0].split(" ")[2],
-            date_issue=str(self._credentals[7]).split(" ")[0].replace("-", ""),
+            date_issue=str(self._credentals[7]).split(" ")[0].replace("-", "")[::-1],
             unit_code=min(str(self._credentals[9]) or "", str(self._credentals[8]) or "", key=len).replace("-", ""),
             unit_name=self._credentals[6],
-            birthday_date=str(self._credentals[3]).split(" ")[0].replace("-", ""),
-            snils_number=self._credentals[8],
+            birthday_date=str(self._credentals[3]).split(" ")[0].replace("-", "")[::-1],
+            snils_number=self._credentals[-1],
             is_male=get_gender(name=self._credentals[0].split(" ")[0]) == 1,
             birthplace=drop_dublicates(self._credentals[2].split("РОССИЯ,")[-1]).removeprefix(",").removesuffix(",")
         )
