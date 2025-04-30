@@ -99,6 +99,8 @@ class LeadsGenerator:
             try:
                 parser.enter_registration_otp(otp=sms_code)
             except Exception as e:
+                print(e)
+
                 stopping_exception = parser_exceptions.InitializingError(
                     crude_exception=e,
                     used_phone_id=number_id,

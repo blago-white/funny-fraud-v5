@@ -125,7 +125,7 @@ def session_results_commiter(func):
         except (exceptions.TraficBannedError, exceptions.InitializingError) as e:
             print("ERROR INITIALIZING : ", e)
 
-            OwnerCredentalsXLSRepository().restore_unused(credentals=owner_credentals.raw_credentals)
+            OwnerCredentalsXLSRepository().restore_unused(credentals=owner_credentals)
 
             _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
