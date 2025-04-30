@@ -16,11 +16,11 @@ class OfferInitializerParser:
 
     def __init__(
             self, driver: Chrome,
-            owner_data_generator: credentals.OwnerCredentalsContainer = None):
+            owner_data_generator: credentals.OwnerTxtCredentalsContainer = None):
         self._driver = driver
 
         self._owner_data_generator = (
-            owner_data_generator or credentals.OwnerCredentalsContainer(
+            owner_data_generator or credentals.OwnerTxtCredentalsContainer(
                 credentals="'ESIA';'16da72fe-f3df-4cb9-9f3f-b8cd20695608';'2022-10-07 20:06:39';'erl-portal';'Мерцалов';'Максим';'Сергеевич';'Мерцалов';'Максим';'Сергеевич';'MALE';'02.10.1984';'13094123931';'572004416883';'Россия, Орловская обл, Орловский р-н, Плещеево с, 302531, Луговая ул, д. 2, кв. 3';'Россия, Орловская обл, Орловский р-н, Плещеево с, 302531, Луговая ул, д. 2, кв. 3';'5403 830630, выдан 11.10.2004 Орловским РОВД Орловской Области 572019';'5403';'830630';'572-019';'Орловским РОВД Орловской Области';'11.10.2004';'GOOD';'maxim.mertsalow@yandex.ru';'+79202872928';;;;;;;;'false';;'1011137694'"
             )
         )
@@ -99,7 +99,6 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-code").click()
         self._driver.find_element(By.ID, "personal-form_input-code").send_keys(
             passport.unit_code)
-        print("WOWWW")
 
         time.sleep(3)
 
@@ -115,8 +114,6 @@ class OfferInitializerParser:
             passport.birthday_date)
 
         time.sleep(.5)
-
-        print(f"BIRTHPLACE !!! {passport.birthplace}")
 
         self._driver.find_element(By.ID,
                                   "personal-form_input-birthplace").click()
@@ -171,28 +168,27 @@ class OfferInitializerParser:
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
-            0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[0].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
-            1].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[1].click()
         self._click_random_selector()
 
         time.sleep(.5)
 
-        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[
-            2].click()
+        self._driver.find_elements(By.CSS_SELECTOR, 'div[role="combobox"]')[2].click()
         self._click_selector(number=random.randint(1, 3))
 
-        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[
-            0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
         time.sleep(20)
 
     def enter_owner_funds_status(self):
+        if "занятость и стаж" not in self._driver.page_source.lower():
+            raise Exception("Credentials validation error!")
+
         self._select_employment_type()
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
@@ -211,10 +207,11 @@ class OfferInitializerParser:
             By.CSS_SELECTOR, ".new-ui-select__activator.-primary.-medium"
         )[0].click()
 
-        random_working_strategy = 0 if random.randint(0, 100) < 10 else (
-            random.randint(5, 6) if random.randint(0, 10) < 4 else 4)
+        random_working_strategy = 0 if random.randint(0, 100) < -10 else (
+            random.randint(5, 6) if random.randint(0, 10) < 4 else 4
+        )
 
-        random_working_strategy = 0
+        # random_working_strategy = 0
 
         print(f"WORK STRAT: {random_working_strategy}")
 

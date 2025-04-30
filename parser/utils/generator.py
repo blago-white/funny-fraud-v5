@@ -5,7 +5,7 @@ from parser.transfer import LeadsGenerationSession
 from requests.exceptions import JSONDecodeError
 
 from db.credentals import CredentalsListEndedError
-from db.credentals import OwnerCredentalsRepository
+from db.credentals import OwnerCredentalsTxtRepository
 from db.transfer import LeadGenResultStatus, LeadGenResult
 from parser.parser import exceptions
 from parser.parser.parser import OfferInitializerParser
@@ -35,6 +35,7 @@ def session_results_commiter(func):
 
     def wrapped(*args,
                 lead_id: int = None,
+                _retry_number=0,
                 **kwargs):
         if len(args) > 1:
             raise ValueError("Only kwargs")
@@ -91,7 +92,7 @@ def session_results_commiter(func):
                 error=f"CANT RUN GOLOGIN AFTER 15 RETRY"
             )
 
-        owner_credentals = OwnerCredentalsRepository().get_next()
+        owner_credentals = OwnerCredentalsTxtRepository().get_next()
 
         try:
             parser: OfferInitializerParser = self._parser_class(
@@ -124,7 +125,7 @@ def session_results_commiter(func):
         except (exceptions.TraficBannedError, exceptions.InitializingError) as e:
             print("ERROR INITIALIZING : ", e)
 
-            OwnerCredentalsRepository().restore_unused(credentals=owner_credentals)
+            OwnerCredentalsTxtRepository().restore_unused(credentals=owner_credentals)
 
             _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
@@ -132,15 +133,24 @@ def session_results_commiter(func):
                 return wrapped(
                     *args,
                     lead_id=lead_id,
+                    _retry_number=_retry_number+1,
                     **kwargs
                 )
             except:
                 _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
-                self._db_service.mark_failed(
-                    session_id=session_id,
-                    lead_id=lead_id,
-                    error=f"Parser initialization error: {str(e)}"
+                if _retry_number >= 3:
+                    self._db_service.mark_failed(
+                        session_id=session_id,
+                        lead_id=lead_id,
+                        error=f"Parser initialization error: {str(e)}"
+                    )
+                    raise e
+
+                return wrapped(
+                    *args,
+                    _retry_number=_retry_number+1,
+                    **kwargs
                 )
         except Exception as e:
             print(f"LEAD #{lead_id} FATAL ERROR : {e}")
@@ -153,6 +163,18 @@ def session_results_commiter(func):
                 error=f"Parser initialization error: {str(e)}"
             )
 
-            raise e
+            if _retry_number >= 3:
+                self._db_service.mark_failed(
+                    session_id=session_id,
+                    lead_id=lead_id,
+                    error=f"Parser initialization error: {str(e)}"
+                )
+                raise e
+
+            return wrapped(
+                *args,
+                _retry_number=_retry_number+1,
+                **kwargs
+            )
 
     return wrapped
