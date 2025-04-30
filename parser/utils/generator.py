@@ -5,7 +5,7 @@ from parser.transfer import LeadsGenerationSession
 from requests.exceptions import JSONDecodeError
 
 from db.credentals import CredentalsListEndedError
-from db.credentals import OwnerCredentalsTxtRepository
+from db.credentals import OwnerCredentalsXLSRepository
 from db.transfer import LeadGenResultStatus, LeadGenResult
 from parser.parser import exceptions
 from parser.parser.parser import OfferInitializerParser
@@ -92,7 +92,7 @@ def session_results_commiter(func):
                 error=f"CANT RUN GOLOGIN AFTER 15 RETRY"
             )
 
-        owner_credentals = OwnerCredentalsTxtRepository().get_next()
+        owner_credentals = OwnerCredentalsXLSRepository().get_next()
 
         try:
             parser: OfferInitializerParser = self._parser_class(
@@ -125,7 +125,7 @@ def session_results_commiter(func):
         except (exceptions.TraficBannedError, exceptions.InitializingError) as e:
             print("ERROR INITIALIZING : ", e)
 
-            OwnerCredentalsTxtRepository().restore_unused(credentals=owner_credentals)
+            OwnerCredentalsXLSRepository().restore_unused(credentals=owner_credentals.raw_credentals)
 
             _close_driver(drivers_service=self._drivers_service(), pid=pid, initializer=parser)
 
