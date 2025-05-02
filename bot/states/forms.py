@@ -17,3 +17,7 @@ class SmsServiceApikeySettingForm(StatesGroup):
 
 class ProxySettingForm(StatesGroup):
     wait_base_proxy = State()
+
+
+class CredentialsFileSettingForm(StatesGroup):
+    wait_file = State()

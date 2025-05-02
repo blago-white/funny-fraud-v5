@@ -6,6 +6,7 @@ MAIN_MENU_KB = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="🟩 Gologin Apikey")],
     [KeyboardButton(text="☎ Helper-Sms Apikey")],
     [KeyboardButton(text="🔐 Изменить Прокси")],
+    [KeyboardButton(text="🔠 Изменить файл строк")],
 ], resize_keyboard=True)
 
 APPROVE_KB = ReplyKeyboardMarkup(keyboard=[
