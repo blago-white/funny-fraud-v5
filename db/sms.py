@@ -1,7 +1,7 @@
 from enum import Enum
 
-from .base import DefaultApikeyRedisRepository
 from .base import BaseRedisService
+from .base import DefaultApikeyRedisRepository
 
 
 class LatestSmsTypes(Enum):

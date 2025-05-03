@@ -1,8 +1,6 @@
 import threading
 import time
 
-# {"helper-sms": 0}
-
 
 class SmsServiceThrottlingMiddleware:
     _THROTTLE_LISTS = {}
@@ -38,18 +36,3 @@ class SmsServiceThrottlingMiddleware:
 
             return wrapped
         return wrapper
-
-
-# @SmsServiceThrottlingMiddleware.throttle(rps=10, space="test")
-# def test_req(n):
-#     print(f"#{n} DELTA: {time.time() - START}")
-#
-#
-# tasks = [threading.Thread(target=test_req, args=(i, )) for i in range(10)]
-#
-# for t in tasks:
-#     t.start()
-#
-# print("WWWW")
-# test_req(111)
-# print("hhh")

@@ -1,19 +1,31 @@
 import random
 import string
-import openpyxl
-
-from rusgenderdetection import get_gender
-from dataclasses import dataclass
-from russian_names import RussianNames
 from itertools import groupby
+from abc import ABCMeta, abstractmethod
+
+import openpyxl
+from rusgenderdetection import get_gender
 
 from parser.parser.transfer import PassportData
-
-from .exceptions import CredentalsListEndedError
 from .base import SimpleConcurrentRepository
-
+from .exceptions import CredentalsListEndedError
 
 drop_dublicates = lambda s: "".join(c for c, _ in groupby(s))
+
+
+class OwnerCredentialsRepository(metaclass=ABCMeta):
+    _file_path: str
+
+    def __init__(self, credentals_file_path: str = None):
+        self._credentals_file = credentals_file_path or self._file_path
+
+    @abstractmethod
+    def get_next(self):
+        pass
+
+    @abstractmethod
+    def restore_unused(self):
+        pass
 
 
 class OwnerTxtCredentalsContainer:
@@ -113,10 +125,8 @@ class OwnerXLSCredentalsContainer:
         )
 
 
-class OwnerCredentalsTxtRepository(SimpleConcurrentRepository):
-    def __init__(self, credentals_file_path: str = "data/credentals.txt"):
-        self._credentals_file = credentals_file_path
-        super().__init__()
+class OwnerCredentalsTxtRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
+    _file_path = "data/credentals.txt"
 
     @SimpleConcurrentRepository.locked()
     def get_next(self):
@@ -160,10 +170,8 @@ class OwnerCredentalsTxtRepository(SimpleConcurrentRepository):
         return True
 
 
-class OwnerCredentalsXLSRepository(SimpleConcurrentRepository):
-    def __init__(self, credentals_file_path: str = "data/credentials.xlsx"):
-        self._credentals_file = credentals_file_path
-        super().__init__()
+class OwnerCredentalsXLSRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
+    _file_path = "data/credentials.xlsx"
 
     @SimpleConcurrentRepository.locked()
     def get_next(self) -> OwnerXLSCredentalsContainer:

@@ -1,6 +1,3 @@
-import random
-import time
-
 from .base import DefaulConcurrentRepository
 from .transfer import LeadGenResult, LeadGenResultStatus, STATUS_MAPPING
 
