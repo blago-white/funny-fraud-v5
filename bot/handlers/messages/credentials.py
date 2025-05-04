@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import File, Message
 
 from container import BotInstanceContainer
+from db.credentials import OwnerCredentialsXLSRepository
 from bot.states.forms import CredentialsFileSettingForm
 
 
@@ -27,7 +28,7 @@ async def upload_credentials(message: Message, state: FSMContext):
     except:
         return await message.reply("❌ Похоже, файл не прикреплен")
 
-    download_path = 'data/credentials.xlsx'
+    download_path = OwnerCredentialsXLSRepository().file_path
 
     await bot.download_file(file_path, download_path)
 

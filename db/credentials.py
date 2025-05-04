@@ -19,6 +19,10 @@ class OwnerCredentialsRepository(metaclass=ABCMeta):
     def __init__(self, credentals_file_path: str = None):
         self._credentals_file = credentals_file_path or self._file_path
 
+    @property
+    def file_path(self) -> str:
+        return self._file_path
+
     @abstractmethod
     def get_next(self):
         pass
@@ -28,7 +32,7 @@ class OwnerCredentialsRepository(metaclass=ABCMeta):
         pass
 
 
-class OwnerTxtCredentalsContainer:
+class OwnerTxtCredentialsContainer:
     _credentals: str
     _passport: PassportData
 
@@ -71,7 +75,7 @@ class OwnerTxtCredentalsContainer:
         )
 
 
-class OwnerXLSCredentalsContainer:
+class OwnerXLSCredentialsContainer:
     _credentals: str
     _passport: PassportData
 
@@ -125,7 +129,7 @@ class OwnerXLSCredentalsContainer:
         )
 
 
-class OwnerCredentalsTxtRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
+class OwnerCredentialsTxtRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
     _file_path = "data/credentals.txt"
 
     @SimpleConcurrentRepository.locked()
@@ -144,17 +148,17 @@ class OwnerCredentalsTxtRepository(OwnerCredentialsRepository, SimpleConcurrentR
 
                 print(f"CREDENTALS RETRIEVE: {last_credentals}")
 
-                if self._validate_credentals(credentals=OwnerTxtCredentalsContainer(credentals=last_credentals)):
+                if self._validate_credentals(credentals=OwnerTxtCredentialsContainer(credentals=last_credentals)):
                     file.writelines(credentals_list[iterations:])
 
                     print("SUCCESS RETRIEVED")
 
-                    return OwnerTxtCredentalsContainer(credentals=last_credentals)
+                    return OwnerTxtCredentialsContainer(credentals=last_credentals)
 
                 iterations += 1
 
     @SimpleConcurrentRepository.locked()
-    def restore_unused(self, credentals: OwnerTxtCredentalsContainer):
+    def restore_unused(self, credentals: OwnerTxtCredentialsContainer):
         with open(self._credentals_file, "r", encoding="utf-8") as file:
             credentals_file_list = file.readlines()
 
@@ -163,18 +167,18 @@ class OwnerCredentalsTxtRepository(OwnerCredentialsRepository, SimpleConcurrentR
 
             file.writelines(credentals_file_list)
 
-    def _validate_credentals(self, credentals: OwnerTxtCredentalsContainer):
+    def _validate_credentals(self, credentals: OwnerTxtCredentialsContainer):
         if len(credentals.get_passport_data().birthplace) < 4:
             return False
 
         return True
 
 
-class OwnerCredentalsXLSRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
+class OwnerCredentialsXLSRepository(OwnerCredentialsRepository, SimpleConcurrentRepository):
     _file_path = "data/credentials.xlsx"
 
     @SimpleConcurrentRepository.locked()
-    def get_next(self) -> OwnerXLSCredentalsContainer:
+    def get_next(self) -> OwnerXLSCredentialsContainer:
         credentals_list_wb = openpyxl.load_workbook(filename=self._credentals_file)
         credentals_list = credentals_list_wb.active
 
@@ -182,31 +186,31 @@ class OwnerCredentalsXLSRepository(OwnerCredentialsRepository, SimpleConcurrentR
             columns = list(reversed(list(credentals_list.rows)))[0]
 
             if len(columns) < 4:
-                credentals_list_wb.save(filename="data/credentials.xlsx")
+                credentals_list_wb.save(filename=self._credentals_file)
 
                 raise CredentalsListEndedError("Update credentals sheet")
 
-            if self._validate_credentals(credentals=OwnerXLSCredentalsContainer(credentals=columns)):
+            if self._validate_credentals(credentals=OwnerXLSCredentialsContainer(credentals=columns)):
                 print("SUCCESS RETRIEVED")
 
                 credentals_list.delete_rows(idx=len(list(credentals_list.rows)))
 
-                credentals_list_wb.save(filename="data/credentials.xlsx")
+                credentals_list_wb.save(filename=self._credentals_file)
 
-                return OwnerXLSCredentalsContainer(credentals=columns)
+                return OwnerXLSCredentialsContainer(credentals=columns)
 
             credentals_list.delete_rows(idx=len(list(credentals_list.rows)))
 
     @SimpleConcurrentRepository.locked()
-    def restore_unused(self, credentals: OwnerXLSCredentalsContainer):
+    def restore_unused(self, credentals: OwnerXLSCredentialsContainer):
         wb = openpyxl.load_workbook(filename=self._credentals_file)
         ws = wb.active
 
         ws.append(credentals.raw_credentals)
 
-        credentals_list_wb.save(filename="data/credentials.xlsx")
+        credentals_list_wb.save(filename=self._credentals_file)
 
-    def _validate_credentals(self, credentals: OwnerXLSCredentalsContainer):
+    def _validate_credentals(self, credentals: OwnerXLSCredentialsContainer):
         print(len(credentals.raw_credentals))
         if len(credentals.raw_credentals) < 11:
             print("A")
