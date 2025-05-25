@@ -98,6 +98,8 @@ class OfferInitializerParser:
         self._driver.find_element(By.ID, "personal-form_input-code").send_keys(
             passport.unit_code)
 
+        print("1")
+
         time.sleep(3)
 
         self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[
@@ -105,11 +107,15 @@ class OfferInitializerParser:
 
         time.sleep(.5)
 
+        print("2")
+
         self._driver.find_element(By.ID,
                                   "personal-form_input-birthdate").click()
         self._driver.find_element(By.ID,
                                   "personal-form_input-birthdate").send_keys(
             passport.birthday_date)
+
+        print("3")
 
         time.sleep(.5)
 
@@ -119,12 +125,18 @@ class OfferInitializerParser:
                                   "personal-form_input-birthplace").send_keys(
             passport.birthplace)
 
+        print("4")
+
         time.sleep(.5)
 
         registration_field = self._driver.find_element(By.ID, "personal-form_input-registrationAddress")
 
+        print("5")
+
         registration_field.click()
         registration_field.send_keys(passport.birthplace)
+
+        print("6")
 
         time.sleep(5)
 
