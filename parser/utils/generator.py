@@ -5,7 +5,7 @@ from parser.transfer import LeadsGenerationSession
 from requests.exceptions import JSONDecodeError
 
 from db.credentials import CredentalsListEndedError
-from db.credentials import OwnerCredentialsXLSRepository
+from db.credentials import OwnerCredentialsTxtRepository
 from db.transfer import LeadGenResultStatus, LeadGenResult
 from parser.parser import exceptions
 from parser.parser.parser import OfferInitializerParser
@@ -92,7 +92,7 @@ def session_results_commiter(func):
                 error=f"CANT RUN GOLOGIN AFTER 15 RETRY"
             )
 
-        owner_credentals = OwnerCredentialsXLSRepository().get_next()
+        owner_credentals = OwnerCredentialsTxtRepository().get_next()
 
         try:
             parser: OfferInitializerParser = self._parser_class(

@@ -1,0 +1,4 @@
+from db.credentials import OwnerTxtCredentialsContainer
+
+o = OwnerTxtCredentialsContainer(credentals="""+7(919)7406722:CVET8an! | ФИО: Ломакина Мария Дмитриевна | Снилс: 148-455-897 13 | Паспорт: "vrfStu":"VERIFIED","series":"0716","number":"254657","issueDate":"16.02.2017","issueId":"260036","issuedBy":"Отделом УФМС России по Ставропольскому краю и Карачаево-Черкесской Республике в Промышленном р-не г. Ставрополя","fmsState":"PERSON_NOT_FOUND","fmsValid":false,"eTag":"4CE49C7628A36063017271CA0CE9044FEE256E4B" | ИНН: 041106986670 | Статус: Подтвержден! | Телефон: +7(919)7406722 | ДР: 27.12.1996 | ПОЛ: F | QIWI: True | Платежный сервис: False | Мобильная карта: True | QR: True | Адрес прописки: Ставропольский край, г Светлоград, пер Пионерский, д. 14 | Документы: False""")
+print(o.get_passport_data())
