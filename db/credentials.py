@@ -123,7 +123,7 @@ class OwnerTxtCredentialsContainer:
     def _passport_properties(self):
         passport_numbers = "".join(list(filter(lambda c: c.isdigit(), self._credentals[3])))
 
-        return passport_numbers[:4], passport_numbers[4:10], passport_numbers[10:18], passport_numbers[19:25], self._credentals[3].split("\"issuedBy\":\"")[-1].split("\",\"")[0]
+        return passport_numbers[:4], passport_numbers[4:10], passport_numbers[10:18], passport_numbers[18:24], self._credentals[3].split("\"issuedBy\":\"")[-1].split("\",\"")[0]
 
     @staticmethod
     def get_random_password():
