@@ -128,7 +128,8 @@ class LeadsGenerator:
 
         try:
             parser.enter_owner_passport_data()
-        except:
+        except Exception as e:
+            raise e
             raise exceptions.PassportCredentalsNotCorrect("Passport data not correct")
 
         try:
