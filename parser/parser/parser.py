@@ -170,11 +170,11 @@ class OfferInitializerParser:
         registration_field.send_keys(
             Keys.ENTER)
 
-        time.sleep(5)
+        # time.sleep(5)
 
-        self._driver.find_element(By.ID, "application_snils").click()
-        self._driver.find_element(By.ID, "application_snils").send_keys(
-            passport.snils_number)
+        # self._driver.find_element(By.ID, "application_snils").click()
+        # self._driver.find_element(By.ID, "application_snils").send_keys(
+        #     passport.snils_number)
 
         time.sleep(.5)
 
