@@ -221,10 +221,10 @@ class OwnerCredentialsTxtRepository(OwnerCredentialsRepository, SimpleConcurrent
 
     @SimpleConcurrentRepository.locked()
     def restore_unused(self, credentals: OwnerTxtCredentialsContainer):
-        with open(self._credentals_file, "r", encoding="utf-8") as file:
+        with open(self._credentals_file, "r", encoding="utf-8", errors="replace") as file:
             credentals_file_list = file.readlines()
 
-        with open(self._credentals_file, "w", encoding="utf-8") as file:
+        with open(self._credentals_file, "w", encoding="utf-8", errors="replace") as file:
             credentals_file_list.insert(0, credentals.raw_credentals)
 
             file.writelines(credentals_file_list)
