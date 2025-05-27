@@ -196,10 +196,10 @@ class OwnerCredentialsTxtRepository(OwnerCredentialsRepository, SimpleConcurrent
 
     @SimpleConcurrentRepository.locked()
     def get_next(self):
-        with open(self._credentals_file, "r", encoding="utf-8") as file:
+        with open(self._credentals_file, "r", encoding="utf-8", errors="replace") as file:
             credentals_list = file.readlines()
 
-        with open(self._credentals_file, "w", encoding="utf-8") as file:
+        with open(self._credentals_file, "w", encoding="utf-8", errors="replace") as file:
             if len(credentals_list) == 0:
                 raise CredentalsListEndedError("Update the row sheet")
 
