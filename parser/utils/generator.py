@@ -92,7 +92,7 @@ def session_results_commiter(func):
                 error=f"CANT RUN GOLOGIN AFTER 15 RETRY"
             )
 
-        owner_credentals = OwnerCredentialsTxtRepository().get_next()
+        owner_credentals = OwnerCredentialsTxtRepository()
 
         try:
             parser: OfferInitializerParser = self._parser_class(

@@ -129,9 +129,6 @@ class LeadsGenerator:
         try:
             parser.enter_owner_passport_data()
         except Exception as e:
-            time.sleep(60*5)
-
-            raise e
             raise exceptions.PassportCredentalsNotCorrect("Passport data not correct")
 
         try:

@@ -13,10 +13,11 @@ from . import exceptions, data
 
 class OfferInitializerParser:
     _form_already_inited: bool = False
+    _credentials: credentials.OwnerTxtCredentialsContainer = None
 
     def __init__(
             self, driver: Chrome,
-            owner_data_generator: credentials.OwnerTxtCredentialsContainer = None):
+            owner_data_generator: credentials.OwnerCredentialsTxtRepository = None):
         self._driver = driver
 
         self._owner_data_generator = (
@@ -26,6 +27,15 @@ class OfferInitializerParser:
     @property
     def driver(self):
         return self._driver
+
+    @property
+    def _owner_credentials(self):
+        if self._credentials:
+            return self._credentials
+
+        self._credentials = self._owner_data_generator.get_next()
+
+        return self._credentials
 
     def register(self, url: str, phone: str, _retry: bool = False):
         if not self._form_already_inited:
@@ -74,7 +84,7 @@ class OfferInitializerParser:
 
         time.sleep(.5)
 
-        passport = self._owner_data_generator.get_passport_data()
+        passport = self._owner_credentials.get_passport_data()
 
         if not passport.is_male:
             self._driver.find_element(By.ID, "personal-form_gender-female")
@@ -373,7 +383,7 @@ class OfferInitializerParser:
             By.CLASS_NAME, "ui-input__field"
         )[-2]
 
-        passport = self._owner_data_generator.get_passport_data()
+        passport = self._owner_credentials.get_passport_data()
 
         full_name = f"{passport.lastname.capitalize()} {passport.firstname.capitalize()} " + (
                     "" or passport.patronymic.capitalize())
@@ -395,7 +405,7 @@ class OfferInitializerParser:
         email_input = self._driver.find_element(
             By.ID, "contacts-form_input-email"
         )
-        email_input.send_keys(self._owner_data_generator.get_email())
+        email_input.send_keys(self._owner_credentials.get_email())
 
         time.sleep(1)
 
@@ -421,7 +431,7 @@ class OfferInitializerParser:
         password_field.click()
 
         password_field.send_keys(
-            self._owner_data_generator.get_random_password()
+            self._owner_credentials.get_random_password()
         )
 
         self._driver.find_element(By.ID,
