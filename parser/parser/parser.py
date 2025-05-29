@@ -292,7 +292,7 @@ class OfferInitializerParser:
 
             self._enter_text_to_field(
                 field=start_working_date_field,
-                text=f"{random.randint(1, 12)}{random.randint(2016, 2022)}"
+                text=f"{random.randint(1, 12)}.{random.randint(2016, 2022)}"
             )
 
             time.sleep(1)
@@ -564,6 +564,8 @@ class OfferInitializerParser:
         ).click()
 
     def _enter_text_to_field(self, field: "SeleniumWebElement", text: str):
+        print("START ENTER TEXT", text)
+
         field.click()
 
         field.send_keys(text)

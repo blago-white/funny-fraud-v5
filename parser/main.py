@@ -134,6 +134,8 @@ class LeadsGenerator:
         try:
             parser.enter_owner_funds_status()
         except Exception as e:
+            print("FUNDS ENTERING ERROR")
+
             print(e)
 
             time.sleep(5*60)
