@@ -213,6 +213,17 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
+        try:
+            WebDriverWait(self._driver, 50).until(
+                expected_conditions.element_to_be_clickable(
+                    (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
+                )
+            )
+        except:
+            pass
+        else:
+            self._re_pass_all_screens()
+
     def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
 
@@ -558,3 +569,28 @@ class OfferInitializerParser:
         for letter in text:
             field.send_keys(letter)
             time.sleep(random.random() + 0.1)
+
+    def _re_pass_all_screens(self):
+        WebDriverWait(self._driver, 20).until(
+            expected_conditions.element_to_be_clickable(
+                (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
+            )
+        )
+
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s")[0].click()
+
+        WebDriverWait(self._driver, 50).until(
+            expected_conditions.element_to_be_clickable(
+                (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
+            )
+        )
+
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
+
+        WebDriverWait(self._driver, 50).until(
+            expected_conditions.element_to_be_clickable(
+                (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
+            )
+        )
+
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
