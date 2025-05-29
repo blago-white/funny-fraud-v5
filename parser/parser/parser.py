@@ -566,13 +566,7 @@ class OfferInitializerParser:
     def _enter_text_to_field(self, field: "SeleniumWebElement", text: str):
         field.click()
 
-        passed_text = ""
-
-        for letter in text:
-            passed_text += letter
-
-            field.send_keys(passed_text)
-            time.sleep(random.random() + 0.1)
+        field.send_keys(text)
 
     def _re_pass_all_screens(self):
         WebDriverWait(self._driver, 20).until(
