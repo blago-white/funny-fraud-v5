@@ -136,6 +136,8 @@ class LeadsGenerator:
         except Exception as e:
             print(e)
 
+            time.sleep(5*60)
+
             raise exceptions.FundsStatusEnteringFatalError()
 
         self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
