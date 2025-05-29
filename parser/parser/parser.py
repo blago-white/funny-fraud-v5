@@ -244,7 +244,7 @@ class OfferInitializerParser:
 
         # random_working_strategy = random.randint(5, 6) if random.randint(0, 10) < 3 else 4
 
-        random_working_strategy = 0
+        # random_working_strategy = 0
 
         print(f"WORK STRAT: {random_working_strategy}")
 
