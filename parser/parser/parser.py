@@ -573,8 +573,7 @@ class OfferInitializerParser:
 
         field.click()
 
-        for _ in range(10):
-            field.send_keys(text)
+        field.send_keys(text)
 
     def _re_pass_all_screens(self):
         WebDriverWait(self._driver, 20).until(
