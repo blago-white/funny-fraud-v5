@@ -276,9 +276,14 @@ class OfferInitializerParser:
 
             time.sleep(2)
 
-            self._driver.find_element(
-                By.CSS_SELECTOR, 'div[data-qa="job-select__option"]'
-            ).click()
+            try:
+                self._driver.find_element(
+                    By.CSS_SELECTOR, 'div[data-qa="job-select__option"]'
+                ).click()
+            except:
+                self._driver.find_element(
+                    By.CSS_SELECTOR, ".new-ui-button.-secondary.-s.EMGJJtRfxsp9ZKj+e1oL9g=="
+                ).click()
 
             print("CLICK [3]")
 
