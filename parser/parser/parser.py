@@ -308,15 +308,15 @@ class OfferInitializerParser:
 
             print("POST TITLE")
 
-            self._enter_text_to_field(
-                field=post_title,
-                text=random.choice(data.PositionTitles.choises)
-            )
-
-            time.sleep(1.5)
-
-            self._driver.find_elements(By.CLASS_NAME,
-                                       "new-ui-dropdown-option")[1].click()
+            # self._enter_text_to_field(
+            #     field=post_title,
+            #     text=random.choice(data.PositionTitles.choises)
+            # )
+            #
+            # time.sleep(1.5)
+            #
+            # self._driver.find_elements(By.CLASS_NAME,
+            #                            "new-ui-dropdown-option")[1].click()
 
             time.sleep(1)
 
@@ -573,7 +573,8 @@ class OfferInitializerParser:
 
         field.click()
 
-        field.send_keys(text)
+        for _ in range(10):
+            field.send_keys(text)
 
     def _re_pass_all_screens(self):
         WebDriverWait(self._driver, 20).until(
