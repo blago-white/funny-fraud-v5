@@ -133,7 +133,9 @@ class LeadsGenerator:
 
         try:
             parser.enter_owner_funds_status()
-        except:
+        except Exception as e:
+            print(e)
+
             raise exceptions.FundsStatusEnteringFatalError()
 
         self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
