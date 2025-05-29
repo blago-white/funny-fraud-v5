@@ -6,7 +6,7 @@ class EmployerDataset(Enum):
     @classmethod
     @property
     def choises(cls):
-        return [i for i in dir(cls) if i[0].isupper()]
+        return [getattr(cls, i) for i in dir(cls) if i[0].isupper()]
 
 
 class PositionTitles(EmployerDataset):
