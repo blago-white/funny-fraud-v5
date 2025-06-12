@@ -126,9 +126,13 @@ class LeadsGenerator:
 
         parser.enter_approval_otp(otp=authorization_code)
 
+        print("START ENTERING PASSPORT DATA")
+
         try:
             parser.enter_owner_passport_data()
         except Exception as e:
+            print(f"ENTERING PASSPORT DATA ERROR - {e}")
+            raise e
             raise exceptions.PassportCredentalsNotCorrect("Passport data not correct")
 
         try:

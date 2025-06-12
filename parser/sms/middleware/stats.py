@@ -3,8 +3,8 @@ from ..exceptions import NumberGettingException
 
 class SmsRequestsStatMiddleware:
     _SUCCESS_RECEIVE = 0
-    _FAIL_RECEIVE = 0
-    _CANCELED = 0
+    _FAIL_RECEIVE = _SUCCESS_RECEIVE
+    _CANCELED = _FAIL_RECEIVE
 
     _FROZEN = False
 

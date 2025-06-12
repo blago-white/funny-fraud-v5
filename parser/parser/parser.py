@@ -73,14 +73,22 @@ class OfferInitializerParser:
             approval_otp_field.send_keys(s)
             time.sleep(.5)
 
+        print("REG OTP #2 ENTERED")
+
     def enter_owner_passport_data(self):
+        print("ENTER PASSPORT DATA")
+
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
                 (By.CLASS_NAME, "new-ui-radio")
             )
         )
 
+        print("FOUNDED UI RADIO")
+
         self._driver.find_elements(By.CLASS_NAME, "new-ui-radio")[1].click()
+
+        print("CLICKED FOUNDED UI RADIO")
 
         time.sleep(.5)
 
@@ -413,7 +421,6 @@ class OfferInitializerParser:
         time.sleep(1)
 
         if len(passport.patronymic) < 2:
-            print(self._driver.find_elements(By.NAME, "patronymic"))
             self._driver.find_element(By.NAME, "patronymic").click()
 
         time.sleep(1)
@@ -425,13 +432,10 @@ class OfferInitializerParser:
 
         time.sleep(1)
 
-        self._driver.find_elements(
-            By.CSS_SELECTOR, ".new-ui-button.-primary.-s"
-        )[0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s")[0].click()
 
     def _click_first_selector(self):
-        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[
-            0].click()
+        self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[0].click()
 
     def _enter_password(self):
         WebDriverWait(self._driver, 15).until(
@@ -514,8 +518,6 @@ class OfferInitializerParser:
                                                 'span[x-text="phone"]')
 
         for phone_symbol in phone:
-            print(f"{phone_symbol} : {phone_label.text}")
-
             if phone_symbol not in phone_label.text:
                 raise ValueError("Phone not entered")
 
@@ -539,16 +541,12 @@ class OfferInitializerParser:
 
         time.sleep(5)
 
-        print("TEST")
-
         try:
             self._driver.find_element(
                 By.CSS_SELECTOR,
                 ".AmountForm_formButton__ElYzT.finkit-button.finkit-button--primary.finkit-button--m"
             ).click()
         except:
-            print("FUCK")
-
             time.sleep(2.5)
             return self._click_get_account()
 
@@ -569,8 +567,6 @@ class OfferInitializerParser:
         ).click()
 
     def _enter_text_to_field(self, field: "SeleniumWebElement", text: str):
-        print("START ENTER TEXT", text)
-
         field.click()
 
         field.send_keys(text)
