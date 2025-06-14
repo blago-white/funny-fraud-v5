@@ -75,13 +75,77 @@ class OwnerTxtCredentialsContainerLegacy:
         )
 
 
+# class OwnerTxtCredentialsContainer:
+#     _credentals: str
+#     _passport: PassportData
+#
+#     def __init__(self, credentals: str):
+#         self._raw_credentals = credentals
+#         self._credentals = credentals.split(" | ")
+#
+#     @property
+#     def raw_credentals(self):
+#         return self._raw_credentals
+#
+#     def get_email(self):
+#         return f"{self.get_random_password()}@gmail.com"
+#
+#     def get_passport_data(self) -> PassportData:
+#         return PassportData(
+#             serial_number=self._passport_properties[0],
+#             id=self._passport_properties[1],
+#             firstname=self._name[1],
+#             lastname=self._name[0],
+#             patronymic=self._name[2],
+#             date_issue=self._passport_properties[2],
+#             unit_code=self._passport_properties[3],
+#             unit_name=self._passport_properties[4],
+#             birthday_date=self._birthday,
+#             snils_number="".join(list(filter(lambda c: c.isdigit(), self._credentals[2]))),
+#             is_male="ПОЛ: M" in self._credentals[-7],
+#             birthplace=self._credentals[-2].replace("Адрес прописки: ", "")
+#         )
+#
+#     @property
+#     def _name(self) -> tuple[str, str, str]:
+#         print(self._credentals[1].replace("ФИО: ", "").removesuffix(" ").split(" "))
+#         return self._credentals[1].replace("ФИО: ", "").removesuffix(" ").split(" ")
+#
+#     @property
+#     def _birthday(self) -> str:
+#         return "".join(list(filter(lambda c: c.isdigit(), self._credentals[-8])))
+#
+#     @property
+#     def _snils(self):
+#         return "".join(list(filter(lambda c: c.isdigit(), self._credentals[2])))
+#
+#     @property
+#     def _passport_properties(self):
+#         passport_numbers = "".join(list(filter(lambda c: c.isdigit(), self._credentals[3])))
+#
+#         return passport_numbers[:4], passport_numbers[4:10], passport_numbers[10:18], passport_numbers[18:24], self._credentals[3].split("\"issuedBy\":\"")[-1].split("\",\"")[0]
+#
+#     @staticmethod
+#     def get_random_password():
+#         return "".join(
+#             [random.choice(
+#                 random.choice([
+#                     string.ascii_lowercase,
+#                     string.ascii_uppercase
+#                 ])
+#             ) for _ in range(9)] + ["-"] + [random.choice(string.digits)]
+#         )
+#
+
+
 class OwnerTxtCredentialsContainer:
     _credentals: str
     _passport: PassportData
 
     def __init__(self, credentals: str):
         self._raw_credentals = credentals
-        self._credentals = credentals.split(" | ")
+
+        self._credentals = credentals.split("; ")
 
     @property
     def raw_credentals(self):
@@ -101,29 +165,31 @@ class OwnerTxtCredentialsContainer:
             unit_code=self._passport_properties[3],
             unit_name=self._passport_properties[4],
             birthday_date=self._birthday,
-            snils_number="".join(list(filter(lambda c: c.isdigit(), self._credentals[2]))),
-            is_male="ПОЛ: M" in self._credentals[-7],
-            birthplace=self._credentals[-2].replace("Адрес прописки: ", "")
+            snils_number=self._snils,
+            is_male=not (get_gender(name=self._credentals[0].split(" ")[0]) == 0),
+            birthplace=self._credentals[-1].split("Прописка - ")[-1].split(" ИНН - ")[0]
         )
 
     @property
     def _name(self) -> tuple[str, str, str]:
-        print(self._credentals[1].replace("ФИО: ", "").removesuffix(" ").split(" "))
-        return self._credentals[1].replace("ФИО: ", "").removesuffix(" ").split(" ")
+        return self._credentals[0].split(" ")
 
     @property
     def _birthday(self) -> str:
-        return "".join(list(filter(lambda c: c.isdigit(), self._credentals[-8])))
+        return self._credentals[-1].split("Дата рождения - ")[-1].split(" ")[0]
 
     @property
     def _snils(self):
-        return "".join(list(filter(lambda c: c.isdigit(), self._credentals[2])))
+        return self._credentals[-1].split("СНИЛС - ")[-1].replace("-", "").replace(" ", "")
 
     @property
     def _passport_properties(self):
-        passport_numbers = "".join(list(filter(lambda c: c.isdigit(), self._credentals[3])))
+        serial_number = self._credentals[-1].split("Серия и номер - ")[-1].split(" ")[0]
+        date_issue = self._credentals[-1].split("Дата выдачи - ")[-1].split(" ")[0]
+        unit_name = self._credentals[-1].split("Кем выдан - ")[-1].split(" Код подразделения - ")[0]
+        unit_code = self._credentals[-1].split("Код подразделения - ")[-1].split(" ")[0]
 
-        return passport_numbers[:4], passport_numbers[4:10], passport_numbers[10:18], passport_numbers[18:24], self._credentals[3].split("\"issuedBy\":\"")[-1].split("\",\"")[0]
+        return serial_number[:4], serial_number[4:], date_issue, unit_code, unit_name
 
     @staticmethod
     def get_random_password():
@@ -288,26 +354,16 @@ class OwnerCredentialsXLSRepository(OwnerCredentialsRepository, SimpleConcurrent
 
         return True
 
-# +7(919)7406722:CVET8an!
-# ФИО: Ломакина Мария Дмитриевна
-# Снилс: 148-455-897 13
-# Паспорт: "vrfStu`":"VERIFIED",
-# "series":"0716",
-# "number":"254657",
-# "issueDate":"16.02.2017",
-# "issueId":"260036",
-# "issuedBy":"Отделом УФМС России по Ставропольскому краю и Карачаево-Черкесской Республике в Промышленном р-не г. Ставрополя",
-# "fmsState":"PERSON_NOT_FOUND",
-# "fmsValid":false,
-# "eTag":"4CE49C7628A36063017271CA0CE9044FEE256E4B"
-# ИНН: 041106986670
-# Статус: Подтвержден!
-# Телефон: +7(919)7406722
-# ДР: 27.12.1996
-# ПОЛ: F
-# QIWI: True
-# Платежный сервис: False
-# Мобильная карта: True
-# QR: True
-# Адрес прописки: Ставропольский край, г Светлоград, пер Пионерский, д. 14
-# Документы: False
+
+# Грищенко Николай Алексеевич; Дата рождения - 12.01.1986 Серия и номер - 0306321453 Дата выдачи - 04.03.2006 Место рождения - Краснодарский край Курганинский р-н Курганинск г. Кем выдан - ПВС ОВД Курганинского р-на Краснодарского края Код подразделения - 232040 Прописка - Курганинский р-н Курганинск г. ул.Чайковского ул. д.52 ИНН - 233910427348 СНИЛС - 133-045-049 10
+
+# Грищенко Николай Алексеевич;
+# Дата рождения - 12.01.1986
+# Серия и номер - 0306321453
+# Дата выдачи - 04.03.2006
+# Место рождения - Краснодарский край Курганинский р-н Курганинск г.
+# Кем выдан - ПВС ОВД Курганинского р-на Краснодарского края
+# Код подразделения - 232040
+# Прописка - Курганинский р-н Курганинск г. ул.Чайковского ул. д.52
+# ИНН - 233910427348
+# СНИЛС - 133-045-049 10
