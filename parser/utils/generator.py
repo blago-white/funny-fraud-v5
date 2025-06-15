@@ -83,7 +83,7 @@ def session_results_commiter(func):
                     error=f"GOLOGIN RESPONSE FAILED: \n\n{repr(e)}\n\n{e}"
                 )
             except Exception as e:
-                raise e
+                # raise e
 
                 print(f"LEAD #{lead_id} FAILED - {e} {repr(e)}")
         else:
