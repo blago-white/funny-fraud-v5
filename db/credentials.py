@@ -188,7 +188,7 @@ class OwnerTxtCredentialsContainer:
 
     @property
     def _passport_properties(self):
-        serial_number = self._credentals[-1].split("Серия и номер - ")[-1].split(" ")[0]
+        serial_number = self._credentals[-1].split("Паспорт - ")[-1].split(" ")[0]
         date_issue = self._credentals[-1].split("Дата выдачи - ")[-1].split(" ")[0]
         unit_name = self._credentals[-1].split("Кем выдан - ")[-1].split(" Код подразделения - ")[0]
         unit_code = self._credentals[-1].split("Код подразделения - ")[-1].split(" ")[0]
