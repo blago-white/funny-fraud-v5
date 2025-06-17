@@ -68,11 +68,11 @@ class SMS365Service:
 
         print("CANCELED")
 
-    def check_code(self, activate_id: int) -> str | None:
+    def check_code(self, phone_id: int) -> str | None:
         response = requests.get(
             self._API_ROUTES.get("get-code").format(
                 api=self._apikey,
-                id=str(activate_id)
+                id=str(phone_id)
             )
         )
 
@@ -117,4 +117,4 @@ class SMS365Service:
                 f"Not correct response: {text}"
             )
 
-        return [int(i) for i in text.split(":")[1:]]
+        return tuple([int(i) for i in text.split(":")[1:]])
