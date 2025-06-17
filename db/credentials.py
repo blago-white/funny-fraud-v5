@@ -145,7 +145,11 @@ class OwnerTxtCredentialsContainer:
     def __init__(self, credentals: str):
         self._raw_credentals = credentals
 
-        self._credentals = credentals.split("; ")
+        full_name = credentals.split(";")[0]
+
+        credentals = credentals.replace(";", "")
+
+        self._credentals = full_name, credentals
 
     @property
     def raw_credentals(self):
