@@ -28,7 +28,8 @@ class SmsRequestsStatMiddleware:
 
     @classmethod
     def freeze_phone_receiving(cls):
-        cls._FROZEN = True
+        # cls._FROZEN = True
+        pass
 
     @classmethod
     def allow_phone_receiving(cls):
