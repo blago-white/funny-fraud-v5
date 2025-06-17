@@ -19,7 +19,7 @@ from db.statistics import LeadsGenerationStatisticsService
 from db.transfer import LeadGenResultStatus
 from parser.main import LeadsGenerator
 from parser.sms.base import BaseSmsService
-from parser.sms.helper import HelperSMSService
+from parser.sms.sms365 import SMS365Service
 from parser.transfer import LeadsGenerationSession
 from . import _labels as labels
 from ._transfer import SessionStatusPullingCallStack
@@ -168,7 +168,7 @@ async def approve_session(
 
     overrided_session_timeout = int(data.get("timeout", 60 * 60))
 
-    sms_service = HelperSMSService()
+    sms_service = SMS365Service()
 
     sms_service_balance = sms_service.balance
 
