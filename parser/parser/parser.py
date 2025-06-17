@@ -94,7 +94,9 @@ class OfferInitializerParser:
 
         passport = self._owner_credentials.get_passport_data()
 
-        print(passport)
+        print("RECEIVED PASSPORT", passport)
+        print("RECEIVED PASSPORT", passport)
+        print("RECEIVED PASSPORT", passport)
 
         if not passport.is_male:
             self._driver.find_element(By.ID, "personal-form_gender-female")
