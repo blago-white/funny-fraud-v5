@@ -17,7 +17,7 @@ class SMS365Service:
                    "api_key={api}&action=getBalance",
         "number": "https://365sms.ru/stubs/handler_api.php"
                   "?api_key={api}&action=getNumber"
-                  "&service=wd&operator={oper}&country=0",
+                  "&service=ot&operator={oper}&country=0",
         "set-status": "https://365sms.ru/stubs/handler_api.php?"
                       "api_key={api}&action=setStatus&status=8&id={id}",
         "get-code": "https://365sms.ru/stubs/handler_api.php?"
