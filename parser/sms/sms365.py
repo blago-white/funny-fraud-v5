@@ -44,12 +44,10 @@ class SMS365Service:
             self._API_ROUTES.get("balance").format(api=self._apikey)
         )
 
-        # if not response.ok:
-        #     raise ValueError("Error retrieve balance")
+        if not response.ok:
+            raise ValueError("Error retrieve balance")
 
         data: str = response.text
-
-        print(data)
 
         return float(data.split(":")[-1])
 
