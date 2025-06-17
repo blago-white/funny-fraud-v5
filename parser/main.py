@@ -84,8 +84,8 @@ class LeadsGenerator:
                 stopping_exception = e
                 break
             except Exception as e:
-                print(e)
-                raise e
+                # print(e)
+                # raise e
 
                 stopping_exception = parser_exceptions.InitializingError(
                     crude_exception=e,
