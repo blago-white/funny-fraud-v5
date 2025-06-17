@@ -53,11 +53,11 @@ class SMS365Service:
 
     @SmsServiceThrottlingMiddleware.throttle(rps=2, space="365")
     @SmsRequestsStatMiddleware.counter_cancel_phone
-    def cancel(self, activation_id: int):
+    def cancel(self, phone_id: int):
         response = requests.get(
             self._API_ROUTES.get("set-status").format(
                 api=self._apikey,
-                id=str(activation_id)
+                id=str(phone_id)
             )
         )
 
