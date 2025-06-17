@@ -64,7 +64,8 @@ class SMS365Service:
         text = response.text
 
         if (not response.ok) or (text != "ACCESS_CANCEL"):
-            raise ValueError(f"Error canceling number rent: {text}")
+            print(f"Error canceling number rent: {text}")
+            # raise ValueError()
 
         print("CANCELED")
 
@@ -119,4 +120,4 @@ class SMS365Service:
 
         number_data = [int(i) for i in text.split(":")[1:]]
 
-        return (number_data[0], str(number_data[1]))
+        return number_data[0], str(number_data[1])
