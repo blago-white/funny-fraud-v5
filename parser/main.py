@@ -3,7 +3,7 @@ import time
 
 from db.leads import LeadGenerationResultsService, LeadGenResultStatus, \
     LeadGenResult
-from parser.sms.helper import HelperSMSService
+from parser.sms.sms365 import SMS365Service
 from db.proxy import ProxyRepository
 
 from .utils import exceptions
@@ -18,7 +18,7 @@ from .utils.generator import session_results_commiter
 class LeadsGenerator:
     default_parser_class: OfferInitializerParser = OfferInitializerParser
     default_leads_db: LeadGenerationResultsService = LeadGenerationResultsService
-    default_sms_service: HelperSMSService = HelperSMSService
+    default_sms_service: SMS365Service = SMS365Service
     default_drivers_service: WebDriversService = WebDriversService
 
     _PHONE_ATTEMPTS_COUNT = 3
@@ -26,7 +26,7 @@ class LeadsGenerator:
     def __init__(
             self, parser_class: OfferInitializerParser = None,
             db_service: LeadGenerationResultsService = None,
-            sms_service: HelperSMSService = None,
+            sms_service: SMS365Service = None,
             drivers_service: WebDriversService = None,
             proxy_service: ProxyRepository = None
     ):
@@ -132,7 +132,6 @@ class LeadsGenerator:
             parser.enter_owner_passport_data()
         except Exception as e:
             print(f"ENTERING PASSPORT DATA ERROR - {e}")
-            raise e
             raise exceptions.PassportCredentalsNotCorrect("Passport data not correct")
 
         try:
