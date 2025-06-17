@@ -77,10 +77,12 @@ class SMS365Service:
             )
         )
 
-        if not response.ok:
-            return None
+        # if not response.ok:
+        #     return None
 
         response = response.text
+
+        print(response)
 
         if "STATUS_OK" in response:
             return response.split(":")[-1]
