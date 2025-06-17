@@ -10,7 +10,7 @@ from .middleware import SmsRequestsStatMiddleware, \
 class SMS365Service:
     _apikey: str
 
-    SMS_TIMEOUT = 60*1.5
+    SMS_TIMEOUT = 60*3
 
     _API_ROUTES = {
         "balance": "https://365sms.ru/stubs/handler_api.php?"
