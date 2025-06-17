@@ -117,4 +117,6 @@ class SMS365Service:
                 f"Not correct response: {text}"
             )
 
-        return tuple([int(i) for i in text.split(":")[1:]])
+        number_data = [int(i) for i in text.split(":")[1:]]
+
+        return (number_data[0], str(number_data[1]))
