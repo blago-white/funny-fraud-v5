@@ -142,8 +142,8 @@ class LeadsGenerator:
                 else:
                     try:
                         parser.reenter_password_data()
-                    except:
-                        print("!FUNDS ENTERING FATAL ERROR")
+                    except Exception as e:
+                        print(f"!FUNDS ENTERING FATAL ERROR - {e}")
                         raise e
                         return
 
