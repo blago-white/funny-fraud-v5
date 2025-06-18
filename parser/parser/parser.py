@@ -37,6 +37,10 @@ class OfferInitializerParser:
 
         return self._credentials
 
+    @property
+    def person_banned(self):
+        return "доступ к личному кабинету ограничен" in self._driver.page_source
+
     def register(self, url: str, phone: str, _retry: bool = False):
         if not self._form_already_inited:
             self._driver.get(url=url)
@@ -56,7 +60,7 @@ class OfferInitializerParser:
 
         self._enter_password()
 
-        self._enter_owner_primary_data()
+        self.enter_owner_primary_data()
 
     def enter_approval_otp(self, otp: str):
         WebDriverWait(self._driver, 2.5).until(
@@ -219,16 +223,36 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
-        try:
-            WebDriverWait(self._driver, 50).until(
-                expected_conditions.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
-                )
+        while (time.time() - START) < 60:
+            if "ищем персональные предложения" in self._driver.page_source.lower():
+                return
+
+        self._re_pass_all_screens()
+
+    def reenter_password_data(self):
+        self._driver.find_element(By.CSS_SELECTOR, ".new-ui-button.-secondary.-s.-icon-only").click()
+
+        WebDriverWait(self._driver, 50).until(
+            expected_conditions.presence_of_element_located(
+                (By.CLASS_NAME, "ui-input__field")
             )
-        except:
-            pass
-        else:
-            self._re_pass_all_screens()
+        )
+
+        self._driver.find_elements(
+            By.CLASS_NAME, "ui-input__field"
+        )[-2].send_keys(Keys.CONTROL + "A")
+
+        self._driver.find_elements(
+            By.CLASS_NAME, "ui-input__field"
+        )[-2].send_keys(Keys.BACKSPACE)
+
+        self._driver.find_elements(
+            By.ID, "contacts-form_input-email"
+        )[-2].send_keys(Keys.CONTROL + "A")
+
+        self._driver.find_elements(
+            By.ID, "contacts-form_input-email"
+        )[-2].send_keys(Keys.BACKSPACE)
 
     def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
@@ -394,7 +418,7 @@ class OfferInitializerParser:
             print(f"ERROR CLICK SELECTOR: {e}")
             selectors[number + 1].click()
 
-    def _enter_owner_primary_data(self):
+    def enter_owner_primary_data(self):
         WebDriverWait(self._driver, 50).until(
             expected_conditions.presence_of_element_located(
                 (By.CLASS_NAME, "ui-input__field")

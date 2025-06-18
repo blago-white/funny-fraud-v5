@@ -1,6 +1,8 @@
 import threading
 import time
 
+from aiogram.types import PassportElementErrorSelfie
+
 from db.leads import LeadGenerationResultsService, LeadGenResultStatus, \
     LeadGenResult
 from parser.sms.sms365 import SMS365Service
@@ -124,24 +126,40 @@ class LeadsGenerator:
 
         print("START ENTERING PASSPORT DATA")
 
+        while True:
+            print("ENTER PASSWORD DATA")
+
+            self._process_passport_data(parser=parser)
+
+            try:
+                parser.enter_owner_funds_status()
+            except Exception as e:
+                print("FUNDS ENTERING ERROR")
+                print(e)
+
+                if parser.person_banned:
+                    raise exceptions.PassportCredentalsNotCorrect("Passport banned")
+                else:
+                    try:
+                        parser.reenter_password_data()
+                    except:
+                        print("!FUNDS ENTERING FATAL ERROR")
+                        return
+
+                    parser.enter_owner_primary_data()
+
+                    continue
+
+            break
+
+        self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
+
+    def _process_passport_data(self, parser: OfferInitializerParser):
         try:
             parser.enter_owner_passport_data()
         except Exception as e:
             print(f"ENTERING PASSPORT DATA ERROR - {e}")
             raise exceptions.PassportCredentalsNotCorrect("Passport data not correct")
-
-        try:
-            parser.enter_owner_funds_status()
-        except Exception as e:
-            print("FUNDS ENTERING ERROR")
-
-            print(e)
-
-            time.sleep(5*60)
-
-            return
-
-        self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
 
     def _get_sms_code(self, phone_id: int):
         code, start_time = None, time.time()
