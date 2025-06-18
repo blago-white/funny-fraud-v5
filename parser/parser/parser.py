@@ -223,6 +223,8 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
+        START = time.time()
+
         while (time.time() - START) < 60:
             if "ищем персональные предложения" in self._driver.page_source.lower():
                 return
