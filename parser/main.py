@@ -144,6 +144,7 @@ class LeadsGenerator:
                         parser.reenter_password_data()
                     except:
                         print("!FUNDS ENTERING FATAL ERROR")
+                        raise e
                         return
 
                     parser.enter_owner_primary_data()

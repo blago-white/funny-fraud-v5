@@ -616,8 +616,8 @@ class OfferInitializerParser:
 
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
-                (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
+                (By.CSS_SELECTOR, ".new-ui-button.-primary.-s.SUx0nIGBWWtLtwjVN64t2Q==")
             )
         )
 
-        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
+        self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s.SUx0nIGBWWtLtwjVN64t2Q==")[0].click()
