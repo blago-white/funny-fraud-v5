@@ -23,7 +23,7 @@ from parser.sms.helper import HelperSMSService
 from parser.transfer import LeadsGenerationSession
 from . import _labels as labels
 from ._transfer import SessionStatusPullingCallStack
-from ._utils import all_threads_ended
+from ._utils import all_threads_ended, get_sms_service
 from ..common import db_services_provider, leads_service_provider
 
 router = Router(name=__name__)
@@ -168,7 +168,9 @@ async def approve_session(
 
     overrided_session_timeout = int(data.get("timeout", 60 * 60))
 
-    sms_service = HelperSMSService()
+    sms_service: BaseSmsService = get_sms_service(
+        state_data=(dict(await state.get_data()))
+    )()
 
     sms_service_balance = sms_service.balance
 

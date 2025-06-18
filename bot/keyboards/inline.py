@@ -1,6 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.handlers import data
+from parser.sms.utils import mapper
 from db.transfer import LeadGenResult, LeadGenResultStatus
 
 
@@ -56,13 +57,24 @@ def generate_leads_statuses_kb(leads: list[LeadGenResult]):
 
 
 def get_session_presets_kb(
-        is_supervised: bool = False,
+    current_sms_service: str = mapper.HELPERSMS.KEY,
 ):
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(
-                text=f"{"✅" if is_supervised else ""}🔮 Оптимизировать с ИИ",
-                callback_data=data.UseSupervisorData(use=not is_supervised).pack()
+                text=f"{
+                "🚩" if current_sms_service == mapper.SMSHUB.KEY else ""
+                }☎ Sms-Hub",
+                callback_data=data.SMSServiceSelectorData(
+                    sms_service=mapper.SMSHUB.KEY
+                ).pack()
+            ), InlineKeyboardButton(
+                text=f"{
+                "🚩" if current_sms_service == mapper.HELPERSMS.KEY else ""
+                }☎ Helper",
+                callback_data=data.SMSServiceSelectorData(
+                    sms_service=mapper.HELPERSMS.KEY
+                ).pack()
             )],
         ]
     )

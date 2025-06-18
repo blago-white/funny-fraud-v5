@@ -21,3 +21,10 @@ def all_threads_ended(leads: list[LeadGenResult]) -> bool:
     return all([i.status in (
         LeadGenResultStatus.SUCCESS, LeadGenResultStatus.FAILED
     ) for i in leads])
+
+
+def get_sms_service(state_data: dict) -> object:
+    print(state_data)
+    return SMS_SERVICES_MAPPER[
+        state_data.get("sms-service", HELPERSMS.KEY) or HELPERSMS.KEY
+    ]
