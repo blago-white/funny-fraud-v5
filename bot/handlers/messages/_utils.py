@@ -1,4 +1,5 @@
 from db.transfer import LeadGenResult, LeadGenResultStatus
+from parser.sms.utils.mapper import SMS_SERVICES_MAPPER, HELPERSMS
 
 
 def leads_differences_exists(
