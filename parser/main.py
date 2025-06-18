@@ -122,13 +122,6 @@ class LeadsGenerator:
 
             raise stopping_exception
 
-        # try:
-        #     authorization_code = self._get_sms_code(phone_id=number_id)
-        # except:
-        #     raise parser_exceptions.BadSMSService("Error receiving auth sms")
-
-        # parser.enter_approval_otp(otp=authorization_code)
-
         print("START ENTERING PASSPORT DATA")
 
         try:
@@ -146,7 +139,7 @@ class LeadsGenerator:
 
             time.sleep(5*60)
 
-            raise exceptions.FundsStatusEnteringFatalError()
+            return
 
         self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
 

@@ -158,13 +158,9 @@ class OfferInitializerParser:
         registration_field.click()
         registration_field.send_keys(passport.birthplace)
 
-        print("6")
+        print("BIRTHPLACE ENTERED")
 
         time.sleep(5)
-
-        # self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option")[6].click()
-
-        # time.sleep(5)
 
         def dropdown_choices_exists():
             try:
@@ -175,6 +171,8 @@ class OfferInitializerParser:
                 return False
 
         while not dropdown_choices_exists():
+            print("UNCORRECT BIRTHPLACE FIX ATTEMPT")
+
             registration_field.send_keys(Keys.ARROW_DOWN)
             registration_field.send_keys(Keys.ARROW_DOWN)
 
@@ -184,19 +182,13 @@ class OfferInitializerParser:
 
             time.sleep(3)
 
-        registration_field.send_keys(
-            Keys.ARROW_UP)
+        print("UNCORRECT BIRTHPLACE FIX SUCCESS")
+
+        registration_field.send_keys(Keys.ARROW_UP)
 
         time.sleep(5)
 
-        registration_field.send_keys(
-            Keys.ENTER)
-
-        # time.sleep(5)
-
-        # self._driver.find_element(By.ID, "application_snils").click()
-        # self._driver.find_element(By.ID, "application_snils").send_keys(
-        #     passport.snils_number)
+        registration_field.send_keys(Keys.ENTER)
 
         time.sleep(.5)
 
