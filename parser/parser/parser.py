@@ -223,6 +223,7 @@ class OfferInitializerParser:
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
+    def check_for_repassing(self):
         START = time.time()
 
         while (time.time() - START) < 60:

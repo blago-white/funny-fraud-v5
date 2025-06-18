@@ -153,6 +153,8 @@ class LeadsGenerator:
 
             break
 
+        parser.check_for_repassing()
+
         self._db_service.mark_success(session_id=session_id, lead_id=lead_id)
 
     def _process_passport_data(self, parser: OfferInitializerParser):
