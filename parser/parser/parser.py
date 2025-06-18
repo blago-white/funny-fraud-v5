@@ -188,6 +188,8 @@ class OfferInitializerParser:
 
         time.sleep(5)
 
+        print(f"ADDRES COMPLETED - LEN OF SELECTORS - {len(self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option"))}")
+
         registration_field.send_keys(Keys.ENTER)
 
         time.sleep(.5)
