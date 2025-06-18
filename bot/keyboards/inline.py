@@ -63,10 +63,10 @@ def get_session_presets_kb(
         inline_keyboard=[
             [InlineKeyboardButton(
                 text=f"{
-                "🚩" if current_sms_service == mapper.SMSHUB.KEY else ""
-                }☎ Sms-Hub",
+                "🚩" if current_sms_service == mapper.SMS365.KEY else ""
+                }☎ 365-Sms",
                 callback_data=data.SMSServiceSelectorData(
-                    sms_service=mapper.SMSHUB.KEY
+                    sms_service=mapper.SMS365.KEY
                 ).pack()
             ), InlineKeyboardButton(
                 text=f"{
