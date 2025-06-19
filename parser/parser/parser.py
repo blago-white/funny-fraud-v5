@@ -230,7 +230,11 @@ class OfferInitializerParser:
             if "ищем персональные предложения" in self._driver.page_source.lower():
                 return
 
-        self._re_pass_all_screens()
+        try:
+            self._re_pass_all_screens()
+        except Exception as e:
+            print(e)
+            print("CANNOT REPASS ALL SCREENS!!!")
 
     def reenter_password_data(self):
         self._driver.find_element(By.CSS_SELECTOR, ".new-ui-button.-secondary.-s.-icon-only").click()
@@ -603,22 +607,34 @@ class OfferInitializerParser:
             )
         )
 
+        print("REP 1")
+
         print("ELEMENTS: ", self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s"))
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s")[0].click()
 
+        print("REP 2")
+
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
             )
         )
+
+        print("REP 3")
 
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary")[0].click()
 
+        print("REP 4")
+
         WebDriverWait(self._driver, 50).until(
             expected_conditions.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".new-ui-button.-primary.-s")
             )
         )
 
+        print("REP 5")
+
         self._driver.find_elements(By.CSS_SELECTOR, ".new-ui-button.-primary.-s")[0].click()
+
+        print("REP 6")
