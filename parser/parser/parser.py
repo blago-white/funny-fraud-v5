@@ -253,13 +253,15 @@ class OfferInitializerParser:
             By.CLASS_NAME, "ui-input__field"
         )[-2].send_keys(Keys.BACKSPACE)
 
-        self._driver.find_elements(
-            By.ID, "contacts-form_input-email"
-        )[-2].send_keys(Keys.CONTROL + "A")
+        time.sleep(1)
 
         self._driver.find_elements(
             By.ID, "contacts-form_input-email"
-        )[-2].send_keys(Keys.BACKSPACE)
+        ).send_keys(Keys.CONTROL + "A")
+
+        self._driver.find_elements(
+            By.ID, "contacts-form_input-email"
+        ).send_keys(Keys.BACKSPACE)
 
     def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
