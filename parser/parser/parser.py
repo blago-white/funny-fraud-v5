@@ -175,14 +175,19 @@ class OfferInitializerParser:
                 return False
 
         while not dropdown_choices_exists():
-            print("UNCORRECT BIRTHPLACE FIX ATTEMPT")
+            print(f"UNCORRECT BIRTHPLACE FIX ATTEMPT : {len(self._driver.find_elements(By.CLASS_NAME, "ui-dropdown-option"))}")
+
+            input("ENTER")
 
             registration_field.send_keys(Keys.ARROW_DOWN)
-            registration_field.send_keys(Keys.ARROW_DOWN)
+
+            for _ in range(200):
+                registration_field.send_keys(Keys.ARROW_RIGHT)
+                time.sleep(0.05)
 
             time.sleep(1)
 
-            registration_field.send_keys(Keys.BACKSPACE)
+            registration_field.send_keys(Keys.CONTROL + Keys.BACKSPACE)
 
             time.sleep(3)
 
@@ -283,7 +288,7 @@ class OfferInitializerParser:
 
         # random_working_strategy = random.randint(5, 6) if random.randint(0, 10) < 3 else 4
 
-        # random_working_strategy = 0
+        random_working_strategy = 6
 
         print(f"WORK STRAT: {random_working_strategy}")
 
@@ -392,24 +397,30 @@ class OfferInitializerParser:
 
             print("CLICK [7]")
 
-            self._click_random_selector()
+            try:
+                self._click_random_selector()
+            except:
+                pass
 
-        inputs_group = self._driver.find_elements(By.CLASS_NAME,
-                                                  "new-ui-input__wrapper")
+        try:
+            inputs_group = self._driver.find_elements(By.CLASS_NAME,
+                                                      "new-ui-input__wrapper")
 
-        print("CLICK [8]")
+            print("CLICK [8]")
 
-        inputs_group[0].send_keys(
-            f"{random.randint(80, 350)}0{random.randint(0, 9)}0"
-        )
+            inputs_group[0].send_keys(
+                f"{random.randint(80, 350)}0{random.randint(0, 9)}0"
+            )
 
-        print("CLICK [9]")
+            print("CLICK [9]")
 
-        inputs_group[1].send_keys(
-            f"{random.randint(0, 25) * 1000}"
-        )
+            inputs_group[1].send_keys(
+                f"{random.randint(0, 25) * 1000}"
+            )
 
-        print("CLICK [10]")
+            print("CLICK [10]")
+        except Exception as e:
+            print(f"Funds entering error : {e}")
 
     def _click_random_selector(self):
         selectors = self._driver.find_elements(By.CLASS_NAME,
