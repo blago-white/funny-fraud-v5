@@ -232,7 +232,7 @@ class OfferInitializerParser:
         START = time.time()
 
         while (time.time() - START) < 60:
-            if {"ищем персональные предложения", "персональные предложения"} in self._driver.page_source.lower():
+            if ("ищем персональные предложения" in self._driver.page_source.lower()) or ("персональные предложения" in self._driver.page_source.lower()):
                 return
 
         try:
