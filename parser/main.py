@@ -147,6 +147,8 @@ class LeadsGenerator:
                         raise e
                         return
 
+                    parser.update_credentials()
+
                     parser.enter_owner_primary_data()
 
                     continue

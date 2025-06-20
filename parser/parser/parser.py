@@ -41,6 +41,9 @@ class OfferInitializerParser:
     def person_banned(self):
         return "доступ к личному кабинету ограничен" in self._driver.page_source
 
+    def update_credentials(self):
+        self._credentials = self._owner_data_generator.get_next()
+
     def register(self, url: str, phone: str, _retry: bool = False):
         if not self._form_already_inited:
             self._driver.get(url=url)
