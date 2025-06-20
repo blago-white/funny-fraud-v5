@@ -260,11 +260,11 @@ class OfferInitializerParser:
 
         time.sleep(1)
 
-        self._driver.find_elements(
+        self._driver.find_element(
             By.ID, "contacts-form_input-email"
         ).send_keys(Keys.CONTROL + "A")
 
-        self._driver.find_elements(
+        self._driver.find_element(
             By.ID, "contacts-form_input-email"
         ).send_keys(Keys.BACKSPACE)
 
