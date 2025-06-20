@@ -238,6 +238,9 @@ class OfferInitializerParser:
             if ("ищем персональные предложения" in self._driver.page_source.lower()) or ("персональные предложения" in self._driver.page_source.lower()):
                 return
 
+            if self._owner_credentials.get_passport_data().firstname.lower() not in self._driver.page_source:
+                return
+
         try:
             self._re_pass_all_screens()
         except Exception as e:
