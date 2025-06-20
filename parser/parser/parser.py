@@ -461,6 +461,10 @@ class OfferInitializerParser:
         full_name = f"{passport.lastname.capitalize()} {passport.firstname.capitalize()} " + (
                     "" or passport.patronymic.capitalize())
 
+        name_input.send_keys(Keys.CONTROL + "A")
+
+        name_input.send_keys(Keys.BACKSPACE)
+
         name_input.send_keys(full_name)
 
         time.sleep(2)

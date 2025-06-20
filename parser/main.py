@@ -126,7 +126,7 @@ class LeadsGenerator:
 
         print("START ENTERING PASSPORT DATA")
 
-        while True:
+        for _ in range(10):
             print("ENTER PASSWORD DATA")
 
             self._process_passport_data(parser=parser)
