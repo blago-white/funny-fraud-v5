@@ -260,14 +260,17 @@ class OfferInitializerParser:
 
         time.sleep(1)
 
-        for _ in range(3):
-            self._driver.find_element(
-                By.ID, "contacts-form_input-email"
-            ).send_keys(Keys.CONTROL + "A")
+        try:
+            for _ in range(3):
+                self._driver.find_element(
+                    By.ID, "contacts-form_input-email"
+                ).send_keys(Keys.CONTROL + "A")
 
-            self._driver.find_element(
-                By.ID, "contacts-form_input-email"
-            ).send_keys(Keys.BACKSPACE)
+                self._driver.find_element(
+                    By.ID, "contacts-form_input-email"
+                ).send_keys(Keys.BACKSPACE)
+        except Exception as e:
+            print(e)
 
     def _back_to_entering_phone(self, new_phone: str):
         self._driver.find_element(By.CSS_SELECTOR, ".code-form__secondary-link.secondary-link").click()
@@ -471,6 +474,11 @@ class OfferInitializerParser:
         email_input = self._driver.find_element(
             By.ID, "contacts-form_input-email"
         )
+
+        email_input.send_keys(Keys.CONTROL + "A")
+
+        email_input.send_keys(Keys.BACKSPACE)
+
         email_input.send_keys(self._owner_credentials.get_email())
 
         time.sleep(1)
