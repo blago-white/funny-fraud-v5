@@ -280,21 +280,21 @@ async def _start_session_keyboard_pooling(
                 except Exception as e:
                     print(f"SESSION KB ERROR: {e}")
 
-            if all_threads_ended(leads=leads):
-                await _process_session_finish(
-                    session_id=session_id,
-                    leads=leads,
-                    sms_stat_middleware=sms_stat_middleware,
-                    delta_balance=(
-                        call_stack.default_sms_service_balance -
-                        sms_service_balance
-                    ) if call_stack.default_sms_service_balance else None
-                )
-
-                return await call_stack.initiator_message.bot.send_message(
-                    chat_id=call_stack.initiator_message.chat.id,
-                    text=f"✅<b>Сессия #{session_id} завершена</b>"
-                )
+            # if all_threads_ended(leads=leads):
+            #     await _process_session_finish(
+            #         session_id=session_id,
+            #         leads=leads,
+            #         sms_stat_middleware=sms_stat_middleware,
+            #         delta_balance=(
+            #             call_stack.default_sms_service_balance -
+            #             sms_service_balance
+            #         ) if call_stack.default_sms_service_balance else None
+            #     )
+            #
+            #     return await call_stack.initiator_message.bot.send_message(
+            #         chat_id=call_stack.initiator_message.chat.id,
+            #         text=f"✅<b>Сессия #{session_id} завершена</b>"
+            #     )
 
             if time.time() - START_POLLING > call_stack.session_timeout:
                 await _process_session_finish(
